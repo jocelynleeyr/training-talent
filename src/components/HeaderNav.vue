@@ -19,10 +19,20 @@
                 <template v-if="item.path === '/collect'">
                   <li class="group" :class="{ 'nav-active': isActive }">
                     <a
-                      class="block px-4 py-2 min-w-[130px] text-base text-center text-netural-netural-100 bg-primary-primary-200 hover:bg-primary-primary-100 rounded-full group-[.nav-active]:text-primary-primary-200"
+                      class="relative flex items-center justify-center px-4 py-2 min-w-[130px] text-base text-center text-netural-netural-100 bg-primary-primary-200 hover:bg-primary-primary-100 rounded-full group-[.nav-active]:text-primary-primary-200"
                       :href="href"
-                      >{{ item.meta.title }} icon</a
-                    >
+                      >{{ item.meta.title }}
+                      <span
+                        class="material-icons-round relative ml-1 leading-[0]"
+                      >
+                        star
+                      </span>
+                      <div
+                        class="absolute right-0 top-0 min-w-[22px] h-[22px] py-0.5 px-1 scale-90 rounded-full bg-netural-netural-100 text-primary-primary-100 leading-none text-center"
+                      >
+                        99
+                      </div>
+                    </a>
                   </li>
                 </template>
                 <template v-else>
