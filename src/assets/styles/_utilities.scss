@@ -1,0 +1,13 @@
+@tailwind utilities;
+@layer utilities {
+  .mask-center {
+    mask-position: center;
+  }
+  .mask-contain {
+    mask-size: contain;
+  }
+  .mask-no-repeat {
+    mask-repeat: no-repeat;
+  }
+  
+}
