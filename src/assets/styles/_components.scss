@@ -19,7 +19,7 @@
       @apply hidden;
       & ~ .el-checkbox-style {
         .material-symbols-outlined {
-          @apply hidden relative z-10 text-netural-netural-100 ch-heading-4;
+          @apply hidden relative z-10 text-netural-netural-100;
         }
         @apply relative flex items-center justify-center w-5 h-5 cursor-pointer
         after:content-[''] after:absolute after:top-0 after:left-0 after:rounded after:block after:w-5 after:h-5 after:border after:border-netural-netural-300 after:bg-netural-netural-200;
@@ -61,17 +61,17 @@
     }
   }
   .input-group {
-    @apply flex w-full text-netural-netural-400 ch-heading-4 appearance-none;
+    @apply flex w-full text-netural-netural-400 appearance-none;
   }
   .form-select {
     @apply relative flex items-center after:content-['\e5cf'] after:absolute after:right-2 after:text-netural-netural-400 after:font-['Material_Symbols_Outlined'] after:ch-heading-2 after:pointer-events-none;
     select {
-      @apply relative w-full py-3 pl-4 pr-10 border-2 focus:border-2 text-netural-netural-400 ch-heading-4 appearance-none;
+      @apply relative w-full py-3 pl-4 pr-10 border-2 focus:border-2 text-netural-netural-400 appearance-none;
     }
   }
 
   .form-input {
-    @apply relative w-full py-3 px-4 border-2 focus:border-2  text-netural-netural-400 ch-heading-4 transition-all appearance-none;
+    @apply relative w-full py-3 px-4 border-2 focus:border-2  text-netural-netural-400 transition-all appearance-none;
   }
 
   // material icon 的 偽元素用法
@@ -84,5 +84,5 @@
   //   }
   // }
   // tailwind 寫法，底線前面加 \
-  // @apply fter:content-['chevron\_right'] after:font-['Material_Symbols_Outlined']
+  // @apply after:content-['chevron\_right'] after:font-['Material_Symbols_Outlined']
 }
