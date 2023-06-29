@@ -19,7 +19,7 @@
                 <template v-if="item.path === '/collect'">
                   <li class="group" :class="{ 'nav-active': isActive }">
                     <a
-                      class="relative flex items-center justify-center px-4 py-2 min-w-[130px] text-base text-center text-netural-netural-100 bg-primary-primary-200 hover:bg-primary-primary-100 rounded-full group-[.nav-active]:text-primary-primary-200"
+                      class="relative flex items-center justify-center px-4 py-2 min-w-[130px] text-base text-center text-netural-netural-100 bg-primary-primary-200 hover:bg-primary-primary-100 rounded-full group-[.nav-active]:text-primary-primary-100 group-[.nav-active]:font-bold"
                       :href="href"
                       >{{ item.meta.title }}
                       <span

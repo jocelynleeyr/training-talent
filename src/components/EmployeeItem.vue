@@ -1,15 +1,16 @@
 <template>
   <div
-    class="relative flex flex-col w-[220px] p-6 mb-8 space-y-2 rounded-xl bg-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] group"
+    class="relative flex flex-col w-[220px] p-6 mb-8 space-y-2 rounded-xl bg-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] cursor-pointer group"
     :class="{ '-active': employeeData.collected }"
   >
     <div
       class="relative flex items-center justify-center rounded-full mx-auto mt-[calc(-112px/2)] bg-white text-neutral-400"
     >
-      <span class="material-symbols-rounded text-[64px]"> face </span>
+      <!-- <span class="material-symbols-rounded text-[64px]"> face </span> -->
+      <span class="material-icons-round text-[64px]"> face </span>
     </div>
     <div
-      class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
+      class="absolute right-0 top-0 w-10 h-10 cursor-pointer" title="加入收藏"
       @click="collectItem(employeeData)"
     >
       <span

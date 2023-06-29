@@ -4,7 +4,10 @@
     @apply px-4;
   }
   .layout-content {
-    @apply relative flex flex-col min-h-[calc(100vh-72px-230px)];
+    @apply relative flex flex-col min-h-[calc(100vh-80px-156px)];
+  }
+  .btn-base {
+    @apply relative flex items-center justify-center px-4 py-2 min-w-[130px] text-base text-center text-netural-netural-100 bg-primary-primary-200 hover:bg-primary-primary-100 rounded-full;
   }
   .color-overlay {
     @apply relative before:content-[''] before:absolute before:inset-0 before:z-10 before:w-full before:h-full before:opacity-40 before:bg-netural-netural-400;
@@ -61,7 +64,7 @@
     }
   }
   .input-group {
-    @apply flex w-full text-netural-netural-400 appearance-none;
+    @apply flex w-full text-netural-netural-200 appearance-none;
   }
   .form-select {
     @apply relative flex items-center after:content-['\e5cf'] after:absolute after:right-2 after:text-netural-netural-400 after:font-['Material_Symbols_Outlined'] after:ch-heading-2 after:pointer-events-none;
@@ -71,7 +74,7 @@
   }
 
   .form-input {
-    @apply relative w-full py-3 px-4 border-2 focus:border-2  text-netural-netural-400 transition-all appearance-none;
+    @apply relative w-full py-2 px-4 rounded-full border-2 focus:border-2  text-netural-netural-400 transition-all appearance-none;
   }
 
   // material icon 的 偽元素用法

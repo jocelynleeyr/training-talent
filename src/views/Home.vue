@@ -1,39 +1,27 @@
 <template>
-  <section class="py-10 bg-netural-netural-100">
-    <div class="py-[90px]">
-      <div class="container">
-        <h1 class="flex flex-col">
-          <div
-            class="text-[80px] font-normal whitespace-nowrap text-primary-primary-200"
-          >
-            iMatch
-          </div>
-          <div class="text-sm font-normal leading-6">無料事務所</div>
-        </h1>
-        <div class="flex items-center">
-          <h3 class="max-w-[30%] basis-[30%] text-[32px] pr-2">
-            哩ㄟ齁厝邊集團
-          </h3>
-          <div class="overflow-hidden max-w-[70%] basis-[70%]">
-            <img
-              src="https://images.pexels.com/photos/439379/pexels-photo-439379.jpeg"
-              alt=""
-            />
-          </div>
+  <section class="pb-16 bg-netural-netural-100">
+    <div class="container">
+      <PageHeader page-title="iMatch" sub-title="無料事務所"/>
+      <div class="flex items-center">
+        <h3 class="max-w-[40%] basis-[40%] text-[32px] pr-2">哩ㄟ齁厝邊集團</h3>
+        <div class="overflow-hidden max-w-[60%] ml-auto">
+          <img
+            src="@/assets/images/pexels-sevenstorm-juhaszimrus-439379-640x480.jpg"
+            alt=""
+          />
         </div>
       </div>
     </div>
   </section>
-  <section class="py-10 bg-netural-netural-200">
+  <section class="py-16 bg-netural-netural-200">
     <div class="container">
-      <div class="relative mt-8">
-        <div class="relative z-10 ml-64 py-28">
+      <div class="relative">
+        <div class="relative z-10 py-28 ml-64">
           <h4 class="font-bold text-4xl leading-15 text-primary-primary-200">
             Open Mind!<br />
             2023第三屆厝客松 | OO人壽不動產商業個案分析競賽
           </h4>
         </div>
-
         <div class="relative ml-[450px] mb-16">
           <ol class="flex-col space-y-8 [counter-reset:section]">
             <li class="flex flex-col text-lg">
@@ -130,7 +118,7 @@
         <div class="absolute top-0 left-0 w-[400px] h-full">
           <img
             class="w-full h-full object-cover"
-            src="https://images.pexels.com/photos/2682452/pexels-photo-2682452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src="@/assets/images/pexels-shvets-production-7203722-640x960.jpg"
             alt=""
           />
         </div>
@@ -143,17 +131,17 @@
       </div>
     </div>
   </section>
-  <section class="pt-80 pb-10">
+  <section class="pt-72 pb-16">
     <div class="container">
       <div class="flex flex-col space-y-12">
-        <div class="flex flex-row flex-shrink-0 w-full space-x-8">
+        <div class="flex flex-row items-start flex-shrink-0 w-full space-x-8">
           <div class="w-1/2">
             <p
               class="pb-4 mt-8 text-primary-primary-100 font-semibold text-2xl"
             >
-              厝客松3
+              厝客松
             </p>
-            <div class="pb-4 text-sm leading-6">
+            <div class="pb-4 text-base leading-7">
               枯萎的花可以重新鮮豔嗎?或許你在魔術表演的場合看過這個奇蹟，其實，每個屏氣凝神的瞬間都是細節與巧思的融合。我們生活的城市就是一場大型街頭魔術，每分每秒出現驚奇。街頭樓房、商場體驗、變化萬千的活動，不動產點亮著城市。美好的呈現需要漫長準備，不論哪個環節都不可或缺。外觀帶來的驚嘆、營運促成的活力、維持運作的細緻。你會不會覺得現在的城市活動、景致有點單調?你想不想施展想像力，讓城市因不動產重新鮮豔?
             </div>
             <div class="flex flex-col text-right space-y-2">
@@ -169,7 +157,7 @@
           <div class="w-1/2">
             <img
               class="w-full h-full object-cover"
-              src="https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg"
+              src="@/assets/images/pexels-fauxels-3184306-640x480.jpg"
               alt=""
             />
           </div>
@@ -177,12 +165,12 @@
         <div
           class="flex items-center flex-row-reverse flex-shrink-0 w-full space-x-8"
         >
-          <div class="w-1/2 flex flex-col space-y-6 mt-4 ml-8">
+          <div class="w-1/2 flex flex-col space-y-6 ml-8">
             <div class="flex flex-col">
               <p class="pb-4 text-primary-primary-100 font-semibold text-2xl">
                 OPEN MIND!
               </p>
-              <div class="pb-4 text-sm leading-6">
+              <div class="pb-4 text-base leading-7">
                 OO人壽深耕臺灣商用不動產多年，連年蟬聯全臺收租最高的金融企業。身為在科技時代的老字號企業，集團持續年輕化、思想多元化是OO維持領先地位的秘訣，OO走入校園，讓年輕人再次認識不一樣的OO；我們想要和你們一起成長、一起突破框架，一起
                 OPEN MIND 成就未竟之事！
               </div>
@@ -191,7 +179,7 @@
               <p class="pb-4 text-primary-primary-100 font-semibold text-2xl">
                 再生永續 Ｘ 機電設計 Ｘ 建築商模
               </p>
-              <div class="pb-4 text-sm leading-6">
+              <div class="pb-4 text-base leading-7">
                 本競賽期許能創造OO與大專生之間的互動連結，讓OO走入校園，也讓學生認識OO。今年邁入第三屆，這次有別於過往，我們放眼世界、前進未來，以再生、永續為最大目標，將組別細分成兩大類別「
                 機電設計組 」、「 建築商模組
                 」，期望高手們找出更多元的可能性！另外，今年新增「 職人組
@@ -202,7 +190,7 @@
           <div class="w-1/2">
             <img
               class="w-full h-full object-cover"
-              src="https://images.pexels.com/photos/162539/architecture-building-amsterdam-blue-sky-162539.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src="@/assets/images/pexels-pixabay-162539-640x480.jpg"
               alt=""
             />
           </div>
@@ -210,35 +198,26 @@
       </div>
     </div>
   </section>
-  <Modal v-model="modalShow">
-    <LightBox :image-url="infoData.imageUrl" header-title="OPEN MIND!" />
-  </Modal>
 </template>
 <script>
 import tshukathon from "@/assets/images/tshukathon.jpg";
-import LightBox from "@/components/LightBox.vue";
-import Modal from "@/components/Modal.vue";
+
 import useGlobalDialogStore from "@/stores/globalDialog.js";
 import { mapActions, mapState } from "pinia";
+import PageHeader from "@/components/PageHeader.vue";
 export default {
   components: {
     tshukathon,
-    LightBox,
-    Modal,
+    PageHeader,
   },
   data() {
     return {
       infoData: {
         imageUrl: tshukathon,
       },
-      modalShow: false,
     };
   },
-  methods: {
-    openModal() {
-      this.modalShow = !this.modalShow;
-    },
-  },
+
   computed: {
     ...mapState(useGlobalDialogStore, ["show"]),
   },
