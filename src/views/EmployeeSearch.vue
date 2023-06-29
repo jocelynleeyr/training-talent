@@ -1,21 +1,22 @@
 <template>
-  <div class="flex flex-col flex-1 pt-14 pb-10 bg-netural-netural-200">
+  <div class="flex flex-col flex-1 bg-netural-netural-200">
     <div class="container">
-      視圖搜尋
-      <div class="p-4 md:p-6 bg-netural-netural-200">
-        <div class="flex items-center">
-          <div class="input-group">
-            <input type="text" class="form-input" placeholder="姓名" />
-            <button
-              type="button"
-              class="flex-shrink-0 p-4 whitespace-nowrap bg-primary-primary-200 text-netural-netural-100"
-            >
-              搜尋
-            </button>
+      <PageHeader page-title="Employee Search" sub-title="視圖搜尋" />
+      <div class="py-4 bg-netural-netural-200">
+        <div class="flex items-center w-1/2 space-x-4">
+          <div class="flex items-center w-full">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-input"
+                placeholder="搜尋 編號/學校/科系/專業技能/經歷"
+              />
+            </div>
           </div>
+          <button type="button" class="btn-base">搜尋</button>
         </div>
       </div>
-      <div class="flex flex-wrap gap-6 p-10">
+      <div class="flex flex-wrap gap-6 py-10">
         <template v-for="item in employeeData" :key="item.id">
           <EmployeeItem
             :employee-data="item"
@@ -29,9 +30,11 @@
 </template>
 <script>
 import EmployeeItem from "@/components/EmployeeItem.vue";
+import PageHeader from "@/components/PageHeader.vue";
 export default {
   components: {
     EmployeeItem,
+    PageHeader,
   },
   data() {
     return {
@@ -60,6 +63,36 @@ export default {
         {
           id: "2",
           number: "A000003",
+          employeeName: "田僑仔",
+          school: "國立台北大學",
+          department: "不動產與城鄉環境學系",
+          skills: "不動產估價師、多益850",
+          experience: "101年oo人壽實習生",
+          collected: false,
+        },
+        {
+          id: "3",
+          number: "A000004",
+          employeeName: "田僑仔",
+          school: "國立台北大學",
+          department: "不動產與城鄉環境學系",
+          skills: "不動產估價師、多益800",
+          experience: "102年oo人壽實習生",
+          collected: false,
+        },
+        {
+          id: "4",
+          number: "A000005",
+          employeeName: "田僑仔",
+          school: "國立台灣大學",
+          department: "不動產與城鄉環境學系",
+          skills: "不動產估價師、多益990",
+          experience: "103年oo人壽實習生",
+          collected: false,
+        },
+        {
+          id: "5",
+          number: "A000006",
           employeeName: "田僑仔",
           school: "國立台北大學",
           department: "不動產與城鄉環境學系",

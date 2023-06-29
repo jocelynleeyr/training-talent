@@ -5,6 +5,11 @@
   //     Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
   //     sans-serif, "Noto Sans TC",
   // }
+  html,
+  body,
+  #app {
+    @apply h-full;
+  }
   body {
     font-family: "sans-serif",
       // Inter, -apple-system, BlinkMacSystemFont,
