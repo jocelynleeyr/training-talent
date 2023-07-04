@@ -56,12 +56,19 @@ export default {
     checkContentEmpty(data) {
       return checkContentEmpty(data);
     },
+    modifyCompare(data) {
+      const compareArr = ["臉書帳號","Line帳號","手機","Mail"]
+      console.log(compareArr.includes[data]);
+    }
   },
   computed: {
     ...mapState(useCollectStore, ["collectData"]),
     ...mapState(employeeDataStore, ["headers"]),
     ...mapWritableState(useCollectStore, ["compareData"]),
+ 
   },
-  mounted() {},
+  mounted() {
+    
+  },
 };
 </script>

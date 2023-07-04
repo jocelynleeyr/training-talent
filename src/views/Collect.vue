@@ -9,8 +9,7 @@
               v-for="item in modifyCollectData"
               :key="item.id"
               :employee-data="item"
-              @remove-item="removeCollect(item, collectData)"
-              @insert="addCompareItem(item)"
+              @change="addCompareItem(item)"
             />
           </div>
         </div>
@@ -186,8 +185,8 @@ export default {
     ...mapState(employeeDataStore, ["pagination"]),
     ...mapState(useCollectStore, [
       "collectData",
-      "modifyCollectData",
       "compareData",
+      "getCollects"
     ]),
     ...mapWritableState(employeeDataStore, ["paginationData"]),
     modifyCollectData() {
@@ -198,12 +197,9 @@ export default {
         };
       });
     },
-    checkCount() {
-      return this.compareData.length;
-    },
   },
   mounted() {
-    console.log(this.collectData);
+    this.getCollects()
   },
 };
 </script>

@@ -39,7 +39,7 @@
                       <div
                         class="absolute right-0 top-0 min-w-[22px] h-[22px] py-0.5 px-1 scale-90 rounded-full bg-netural-netural-100 text-primary-primary-100 leading-none text-center font-bold"
                       >
-                        {{ collectData.length }}
+                        {{ collectIds.length }}
                       </div>
                     </a>
                   </li>
@@ -69,7 +69,7 @@ import { useCollectStore, collectStorage } from "@/stores/collectStore.js";
 export default {
   computed: {
     ...mapState(useNavListMenu, ["navList", "webTitle"]),
-    ...mapState(useCollectStore, ["collectData"]),
+    ...mapState(useCollectStore, ["collectIds"]),
   },
 };
 </script>

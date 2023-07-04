@@ -69,7 +69,7 @@
   .form-select {
     @apply relative flex items-center after:content-['\e5cf'] after:absolute after:right-2 after:text-netural-netural-400 after:text-2xl after:font-['Material_Icons_Round'] after:pointer-events-none;
     select {
-      @apply relative w-full py-3 pl-4 pr-10 rounded-xl border-2 focus:border-2 text-netural-netural-400 appearance-none;
+      @apply relative w-full py-2 pl-4 pr-8 rounded-full border-2 focus:border-2 text-netural-netural-400 appearance-none;
     }
   }
 

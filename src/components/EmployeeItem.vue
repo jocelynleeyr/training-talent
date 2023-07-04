@@ -12,7 +12,7 @@
       v-if="this.$route.path === '/employeesearch'"
       class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
       title="加入收藏"
-      @click="collectItem(employeeData)"
+      @click="toggleCollect(employeeData.id)"
     >
       <span
         v-if="collectIds.indexOf(employeeData.id) === -1"
@@ -31,7 +31,7 @@
       v-if="this.$route.path === '/collect'"
       class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
       title="移除"
-      @click="collectItem(employeeData)"
+      @click="toggleCollect(employeeData.id)"
     >
       <span
         class="absolute top-0 left-0 material-icons-round text-3xl text-neutral-300"
@@ -96,7 +96,7 @@
           <p
             class="pl-3 text-base leading-5 break-words before:content-[''] before:absolute before:inset-y-0 before:left-0 before:block before:w-1 before:h-1 before:pr-1 before:my-auto before:rounded-full before:bg-primary-primary-100"
           >
-            {{ employeeData["國泰經歷"] }}
+            {{ employeeData["花椰菜經歷"] }}
           </p>
         </li>
       </ul>
@@ -106,7 +106,6 @@
 <script>
 import { mapActions, mapState, mapWritableState } from "pinia";
 import { useCollectStore } from "@/stores/collectStore.js";
-import { employeeDataStore } from "@/stores/employeeDataStore.js";
 export default {
   props: {
     employeeData: {
@@ -118,21 +117,15 @@ export default {
     return {};
   },
   methods: {
-    collectItem(item) {
-      item.collected = !item.collected;
-      if (item.collected) {
-        this.$emit("addItem", item);
-      } else {
-        this.$emit("removeItem", item);
-      }
-    },
+    ...mapActions(useCollectStore, ["toggleCollect"]),
     insertItem(item) {
       this.$emit("insert", item);
     },
   },
   computed: {
-    ...mapState(useCollectStore, ["collectData", "collectIds"]),
+    ...mapState(useCollectStore, ["collectIds"]),
     ...mapWritableState(useCollectStore, ["compareData"]),
+    
   },
   mounted() {},
 };
