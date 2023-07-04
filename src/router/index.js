@@ -1,4 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import { useCollectStore, collectStorage } from "@/stores/collectStore.js";
+import { employeeDataStore } from "@/stores/employeeDataStore.js";
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -6,6 +9,13 @@ const router = createRouter({
       path: "/",
       name: "FrontLayout",
       component: () => import("@/views/FrontLayout.vue"),
+      async beforeEnter(to, from) {
+        const getCollect = useCollectStore();
+        getCollect.collectIds = collectStorage.get("collectStorage");
+        const employeeData = employeeDataStore();
+        await employeeData.fetchExcelData();
+      },
+
       children: [
         {
           path: "",
@@ -34,7 +44,7 @@ const router = createRouter({
       ],
     },
   ],
-  linkActiveClass: "nav-active",
+  linkExactActiveClass: "nav-active",
 });
 
 export default router;

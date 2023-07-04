@@ -4,7 +4,16 @@
       <div
         class="flex flex-col md:flex-row md:items-center md:justify-between py-20 md:py-[54px]"
       >
-        <p class="pb-[26px] md:pb-0 whitespace-nowrap text-netural-netural-100  text-2xl">{{ webTitle }}</p>
+        <div class="flex flex-row items-center space-x-1 font-bold">
+          <h1 class="whitespace-nowrap text-2xl text-netural-netural-100">
+            {{ webTitle }}
+          </h1>
+          <p class="w-5 text-center text-lg text-netural-netural-100">X</p>
+          <div
+            class="logo w-[120px] h-[40px] bg-netural-netural-100"
+            alt=""
+          ></div>
+        </div>
         <nav class="hidden md:block">
           <ul class="flex items-center space-x-10">
             <router-link

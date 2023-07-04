@@ -6,25 +6,55 @@
     <div
       class="relative flex items-center justify-center rounded-full mx-auto mt-[calc(-112px/2)] bg-white text-neutral-400"
     >
-      <!-- <span class="material-symbols-rounded text-[64px]"> face </span> -->
       <span class="material-icons-round text-[64px]"> face </span>
     </div>
     <div
-      class="absolute right-0 top-0 w-10 h-10 cursor-pointer" title="加入收藏"
+      v-if="this.$route.path === '/employeesearch'"
+      class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
+      title="加入收藏"
       @click="collectItem(employeeData)"
     >
       <span
-        v-if="employeeData.collected"
-        class="absolute top-0 left-0 material-icons-round text-3xl text-yellow-400"
-      >
-        star
-      </span>
-      <span
-        v-else
+        v-if="collectIds.indexOf(employeeData.id) === -1"
         class="absolute top-0 left-0 material-icons-round text-3xl text-neutral-300"
       >
         star_border
       </span>
+      <span
+        v-else
+        class="absolute top-0 left-0 material-icons-round text-3xl text-yellow-400"
+      >
+        star
+      </span>
+    </div>
+    <div
+      v-if="this.$route.path === '/collect'"
+      class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
+      title="移除"
+      @click="collectItem(employeeData)"
+    >
+      <span
+        class="absolute top-0 left-0 material-icons-round text-3xl text-neutral-300"
+      >
+        close
+      </span>
+    </div>
+    <div
+      v-if="employeeData.hasOwnProperty('isCompare')"
+      class="absolute top-2 left-6 flex flex-col el-checkbox"
+    >
+      <input
+        :id="employeeData.id"
+        class="el-checkbox-input"
+        type="checkbox"
+        v-model="compareData"
+        :value="employeeData"
+        :checked="employeeData.isCompare"
+        @input="insertItem(compareData)"
+      />
+      <label :for="employeeData.id" class="el-checkbox-style">
+        <span class="material-icons-round"> check </span>
+      </label>
     </div>
     <div class="flex flex-col">
       <ul class="flex flex-col space-y-3">
@@ -33,34 +63,40 @@
         >
           <span
             class="flex-grow-0 flex-shrink whitespace-nowrap text-base leading-5 text-netural-netural-300"
-            >{{ employeeData.number }}</span
+            >{{ employeeData["編號"] }}</span
           >
           <h3
             class="truncate text-xl leading-6 font-semibold text-primary-primary-100 [&:not(:last-child)]:pr-2"
           >
-            {{ employeeData.employeeName }}
+            {{ employeeData["姓名"] }}
           </h3>
         </li>
-        <li class="flex items-center flex-shrink-0">
+        <li class="relative flex items-center flex-shrink-0 min-h-[20px]">
           <p
-            class="text-base leading-5 break-words before:content-['school'] before:font-['Material_Icons_Round'] before:pr-1 before:top-0.5 before:relative before:text-primary-primary-100 before:text-base"
+            class="pl-3 text-base leading-5 break-words before:content-[''] before:absolute before:inset-y-0 before:left-0 before:block before:w-1 before:h-1 before:pr-1 before:my-auto before:rounded-full before:bg-primary-primary-100"
           >
-            {{ employeeData.school }}
+            {{ employeeData["學校"] }}
           </p>
         </li>
-        <li class="flex items-center flex-shrink-0">
-          <p class="flex items-start text-base leading-5 break-words">
-            {{ employeeData.department }}
+        <li class="relative flex items-center flex-shrink-0 min-h-[20px]">
+          <p
+            class="pl-3 text-base leading-5 break-words before:content-[''] before:absolute before:inset-y-0 before:left-0 before:block before:w-1 before:h-1 before:pr-1 before:my-auto before:rounded-full before:bg-primary-primary-100"
+          >
+            {{ employeeData["科系"] }}
           </p>
         </li>
-        <li class="flex items-center flex-shrink-0">
-          <p class="flex items-start text-base leading-5 break-words">
-            {{ employeeData.skills }}
+        <li class="relative flex items-center flex-shrink-0 min-h-[20px]">
+          <p
+            class="pl-3 text-base leading-5 break-words before:content-[''] before:absolute before:inset-y-0 before:left-0 before:block before:w-1 before:h-1 before:pr-1 before:my-auto before:rounded-full before:bg-primary-primary-100"
+          >
+            {{ employeeData["學歷"] }}
           </p>
         </li>
-        <li class="flex items-center flex-shrink-0">
-          <p class="flex items-start text-base leading-5 break-words">
-            {{ employeeData.experience }}
+        <li class="relative flex items-center flex-shrink-0 min-h-[20px]">
+          <p
+            class="pl-3 text-base leading-5 break-words before:content-[''] before:absolute before:inset-y-0 before:left-0 before:block before:w-1 before:h-1 before:pr-1 before:my-auto before:rounded-full before:bg-primary-primary-100"
+          >
+            {{ employeeData["國泰經歷"] }}
           </p>
         </li>
       </ul>
@@ -68,6 +104,9 @@
   </div>
 </template>
 <script>
+import { mapActions, mapState, mapWritableState } from "pinia";
+import { useCollectStore } from "@/stores/collectStore.js";
+import { employeeDataStore } from "@/stores/employeeDataStore.js";
 export default {
   props: {
     employeeData: {
@@ -87,6 +126,14 @@ export default {
         this.$emit("removeItem", item);
       }
     },
+    insertItem(item) {
+      this.$emit("insert", item);
+    },
   },
+  computed: {
+    ...mapState(useCollectStore, ["collectData", "collectIds"]),
+    ...mapWritableState(useCollectStore, ["compareData"]),
+  },
+  mounted() {},
 };
 </script>

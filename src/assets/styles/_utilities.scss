@@ -9,5 +9,7 @@
   .mask-no-repeat {
     mask-repeat: no-repeat;
   }
-  
+  .rotate-x-180 {
+    transform: rotateX(180deg);
+  }
 }

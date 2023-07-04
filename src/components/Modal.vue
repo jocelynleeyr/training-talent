@@ -1,13 +1,14 @@
 <template>
   <div
+    v-if="ifShow"
     class="modal group"
     :class="{ '-show': transtionShow }"
     @input="$emit('update:modelValue', transtionShow)"
   >
     <div
-      class="fixed z-50 inset-0 m-auto overflow-y-auto flex items-center justify-center p-4 invisible opacity-0 group-[.-show]:opacity-100 group-[.-show]:visible"
+      class="fixed z-[1000] inset-0 m-auto overflow-y-auto flex items-center justify-center p-4 invisible opacity-0 group-[.-show]:opacity-100 group-[.-show]:visible"
     >
-      <div class="relative w-full h-full flex" @click.self="emit('close')">
+      <div class="relative w-full h-full flex">
         <slot></slot>
       </div>
     </div>
@@ -21,15 +22,22 @@ export default {
   props: ["modelValue"],
   data() {
     return {
+      ifShow: false,
       transtionShow: false,
     };
   },
   watch: {
     modelValue(val) {
       if (val) {
-        this.transtionShow = true;
+        this.ifShow = true;
+        window.setTimeout(() => {
+          this.transtionShow = true;
+        }, 0);
       } else {
         this.transtionShow = false;
+        window.setTimeout(() => {
+          this.ifShow = false;
+        }, 0);
       }
     },
   },
