@@ -28,29 +28,16 @@ export const useCollectStore = defineStore("collectStore", {
     collectIds: [],
   }),
   actions: {
-    // TODO 參考六腳專題 11th_street_cafe 的 followsStore.js
     getCollects() {
-      collectStorage.get();
-
-      console.log(collectStorage.get());
+      this.collectData = [];
+      employeeDataStore().modifyData.forEach((item) => {
+        if (this.collectIds.includes(item.id)) {
+          this.collectData.push(item);
+        }
+      });
     },
-    // addCollect(item) {
-    //   console.log("item", item);
-    //   this.collectData.push(item);
-    //   this.collectIds.push(item.id);
-    //   collectStorage.set(this.collectIds);
-    // },
-    // removeCollect(item) {
-    //   const findItem = this.collectData.findIndex(
-    //     (content) => content.id === item.id
-    //   );
-    //   console.log("findItem", findItem);
-    //   this.collectData.splice(findItem, 1);
-    //   this.collectIds.splice(findItem, 1);
-    //   collectStorage.set(this.collectIds);
-    // },
     toggleCollect(id) {
-      this.getCollects();
+      console.log("toggle");
       const collectId = this.collectIds.indexOf(id);
       if (collectId === -1) {
         this.collectIds.push(id);
@@ -58,6 +45,7 @@ export const useCollectStore = defineStore("collectStore", {
         this.collectIds.splice(collectId, 1);
       }
       collectStorage.set(this.collectIds);
+      this.getCollects();
     },
   },
   getters: {},
