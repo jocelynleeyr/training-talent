@@ -4,8 +4,11 @@ import { defineStore } from "pinia";
 // import { useLoadingState } from "@/stores/common.js";
 import { useCollectStore } from "@/stores/collectStore.js";
 // import toast from "@/utils/toast";
+// import xlsxFile from "@/assets/Employee20230704.xlsx";
 import router from "../router";
 import { read, utils } from "xlsx";
+const xlsxFile = new URL("@/assets/Employee20230704.xlsx", import.meta.url)
+  .href;
 export const employeeDataStore = defineStore("employeetData", {
   state: () => {
     return {
@@ -40,14 +43,16 @@ export const employeeDataStore = defineStore("employeetData", {
     },
     async fetchExcelData() {
       try {
-        const response = await fetch(VITE_API_URL);
-        // const response = await fetch("/src/assets/Employee20230702.xlsx");
+        // const response = await fetch(VITE_API_URL);
+        const response = await fetch(
+          new URL(VITE_API_URL, import.meta.url).href
+        );
         const data = await response.arrayBuffer();
         const workbook = read(data);
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         this.excelData = utils.sheet_to_json(worksheet, { header: 1 });
-      
+
         this.headers = this.excelData.shift();
         const excludeKey = ["臉書帳號", "Line帳號", "手機", "Mail"];
 
