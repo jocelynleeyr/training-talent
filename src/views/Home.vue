@@ -4,6 +4,10 @@
       <PageHeader page-title="iMatch" sub-title="無料事務所"/>
       <div class="flex items-center">
         <h3 class="max-w-[40%] basis-[40%] text-[32px] pr-2">哩ㄟ齁厝邊集團</h3>
+        <div
+            class="logo w-[120px] h-[40px] bg-netural-netural-100"
+            alt=""
+          ></div>
         <div class="overflow-hidden max-w-[60%] ml-auto">
           <img
             src="@/assets/images/pexels-sevenstorm-juhaszimrus-439379-640x480.jpg"
@@ -217,9 +221,11 @@ export default {
       },
     };
   },
-
-  computed: {
-    ...mapState(useGlobalDialogStore, ["show"]),
+  methods: {
+    ...mapActions(useGlobalDialogStore, ['openModal'])
   },
+  // computed: {
+  //   ...mapState(useGlobalDialogStore, ["show"]),
+  // },
 };
 </script>

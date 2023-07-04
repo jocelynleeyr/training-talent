@@ -21,25 +21,25 @@
     .el-checkbox-input {
       @apply hidden;
       & ~ .el-checkbox-style {
-        .material-symbols-outlined {
-          @apply hidden relative z-10 text-netural-netural-100;
+        .material-icons-round {
+          @apply hidden relative z-10 text-base font-bold text-netural-netural-100;
         }
         @apply relative flex items-center justify-center w-5 h-5 cursor-pointer
         after:content-[''] after:absolute after:top-0 after:left-0 after:rounded after:block after:w-5 after:h-5 after:border after:border-netural-netural-300 after:bg-netural-netural-200;
       }
       &:checked {
         & ~ .el-checkbox-style {
-          .material-symbols-outlined {
+          .material-icons-round {
             @apply block;
           }
-          @apply after:border-secondary-secondary-200 after:bg-secondary-secondary-200;
+          @apply after:border-netural-netural-200 after:bg-primary-primary-200;
         }
         &[disabled] {
           & ~ .el-checkbox-style {
-            .material-symbols-outlined {
+            .material-icons-round {
               @apply block;
             }
-            @apply before:border-netural-netural-200 before:bg-netural-netural-200 after:border-secondary-secondary-200 after:bg-secondary-secondary-200;
+            @apply before:border-netural-netural-200 before:bg-netural-netural-200 after:border-netural-netural-200 after:bg-netural-netural-200;
           }
         }
       }
@@ -59,7 +59,7 @@
     .el-checkbox-label {
       @apply flex-1 select-none cursor-pointer;
       &__text {
-        @apply font-bold ch-body text-netural-netural-400;
+        @apply font-bold text-netural-netural-400;
       }
     }
   }
@@ -67,16 +67,19 @@
     @apply flex w-full text-netural-netural-200 appearance-none;
   }
   .form-select {
-    @apply relative flex items-center after:content-['\e5cf'] after:absolute after:right-2 after:text-netural-netural-400 after:font-['Material_Symbols_Outlined'] after:ch-heading-2 after:pointer-events-none;
+    @apply relative flex items-center after:content-['\e5cf'] after:absolute after:right-2 after:text-netural-netural-400 after:text-2xl after:font-['Material_Icons_Round'] after:pointer-events-none;
     select {
-      @apply relative w-full py-3 pl-4 pr-10 border-2 focus:border-2 text-netural-netural-400 appearance-none;
+      @apply relative w-full py-3 pl-4 pr-10 rounded-xl border-2 focus:border-2 text-netural-netural-400 appearance-none;
     }
   }
 
   .form-input {
     @apply relative w-full py-2 px-4 rounded-full border-2 focus:border-2  text-netural-netural-400 transition-all appearance-none;
   }
-
+  .logo {
+    mask-image: url("@/assets/images/logo.png");
+    @apply mask-no-repeat mask-center mask-contain;
+  }
   // material icon 的 偽元素用法
   // .material {
   //   &::after {

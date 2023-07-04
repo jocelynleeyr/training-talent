@@ -5,11 +5,7 @@ export default defineStore("navListMenu", {
   state: () => ({
     webTitle: "iMatch 人才招募",
   }),
-  actions: {
-    pushRouteData(content) {
-      this.navRouteData = content;
-    },
-  },
+  actions: {},
   getters: {
     // 給選單用
     navList() {

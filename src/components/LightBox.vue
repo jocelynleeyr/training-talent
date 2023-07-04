@@ -3,17 +3,17 @@
     <div
       class="relative flex items-center justify-center flex-none bg-netural-netural-100"
     >
-      <div class="overflow-hidden flex flex-col justify-center h-16 p-3">
+      <!-- <div class="overflow-hidden flex flex-col justify-center h-16 p-3">
         <p class="text-sm leading-5 text-primary-primary-300">
           {{ headerTitle }}
         </p>
-      </div>
+      </div> -->
       <div
-        class="absolute right-0 flex items-center h-full p-4 cursor-pointer"
+        class="absolute right-4 top-4 flex items-center w-10 h-10 p-4 cursor-pointer"
         @click="close"
       >
         <div>
-          <span class="material-icons-round text-[40px]"> close </span>
+          <span class="material-icons-round text-[40px] text-netural-netural-100"> close </span>
         </div>
       </div>
     </div>
@@ -28,22 +28,28 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "pinia";
 import useGlobalDialogStore from "@/stores/globalDialog.js";
 
 export default {
   props: {
+    modelValue: {
+      type: Boolean,
+      default: false,
+    },
     imageUrl: {
       type: String,
       default: "",
     },
-    headerTitle: {
-      type: String,
-      default: "標題",
-    },
+    // headerTitle: {
+    //   type: String,
+    //   default: "標題",
+    // },
   },
   methods: {
+    ...mapActions(useGlobalDialogStore, ["closeDialog"]),
     close() {
-      this.$emit("update:modelValue");
+      useGlobalDialogStore().closeDialog();
     },
   },
 };
