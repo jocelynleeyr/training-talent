@@ -9,7 +9,6 @@
               v-for="item in modifyCollectData"
               :key="item.id"
               :employee-data="item"
-              @change="addCompareItem(item)"
             />
           </div>
         </div>
@@ -17,7 +16,7 @@
       <AccordionItems :accordion-data="accordionData[1]">
         <div class="flex flex-row pt-10 space-x-6">
           <CompareItem
-            v-for="item in compareList"
+            v-for="item in checkCompareData"
             :key="item.id"
             :compare-item="item"
           />
@@ -101,7 +100,7 @@
 </template>
 <script>
 import { mapActions, mapState, mapWritableState } from "pinia";
-import { useCollectStore, collectStorage } from "@/stores/collectStore.js";
+import { useCollectStore, compareStorage } from "@/stores/collectStore.js";
 import { employeeDataStore } from "@/stores/employeeDataStore.js";
 
 import PageHeader from "@/components/PageHeader.vue";
@@ -156,6 +155,7 @@ export default {
           // collected: false,
         },
       ],
+
       countCompareIndex: 0,
     };
   },
@@ -167,7 +167,8 @@ export default {
   },
   methods: {
     ...mapActions(employeeDataStore, ["changePage"]),
-    ...mapActions(useCollectStore, ["addCollect", "removeCollect"]),
+    // ...mapActions(useCollectStore, ["addCollect", "removeCollect"]),
+    ...mapActions(useCollectStore, ["getCollects", "getCompare"]),
     addCompareItem(content) {
       this.countCompareIndex += 1;
       if (this.countCompareIndex >= this.compareList.length) {
@@ -178,17 +179,14 @@ export default {
         ...content,
         id: this.countCompareIndex,
       };
+      compareStorage.set(this.compareList);
     },
-    removeCompareItem() {},
+
+    // removeCompareItem() {},
   },
   computed: {
-    ...mapState(employeeDataStore, ["pagination"]),
-    ...mapState(useCollectStore, [
-      "collectData",
-      "compareData",
-      "getCollects"
-    ]),
-    ...mapWritableState(employeeDataStore, ["paginationData"]),
+    ...mapState(useCollectStore, ["collectData", "compareData"]),
+    // 整理 收藏資料
     modifyCollectData() {
       return this.collectData.map((item) => {
         return {
@@ -197,9 +195,14 @@ export default {
         };
       });
     },
+    checkCompareData(){
+      return this.compareData.length  ?  this.compareData : this.compareList
+    }
   },
   mounted() {
-    this.getCollects()
+    // 取得 收藏 與 比較 完整資料內容
+    this.getCollects();
+    this.getCompare();
   },
 };
 </script>

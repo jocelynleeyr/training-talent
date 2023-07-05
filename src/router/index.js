@@ -12,6 +12,10 @@ const router = createRouter({
       async beforeEnter(to, from) {
         const getCollect = useCollectStore();
         getCollect.collectIds = collectStorage.get("collectStorage");
+
+        const getCompare = useCollectStore();
+        getCompare.compareIds = collectStorage.get("compareStorage");
+        
         const employeeData = employeeDataStore();
         await employeeData.fetchExcelData();
         // await employeeData.fetchData();

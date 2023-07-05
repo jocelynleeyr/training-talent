@@ -16,7 +16,7 @@
           </div>
           <div class="form-select flex-grow flex-shrink-0">
             <select name="" id="" v-model="selectTag">
-              <option value="" disabled selected>選擇部門</option>
+              <option value="all">全部部門</option>
               <option :value="item" v-for="item in employeeTags" :key="item">
                 {{ item }}
               </option>
@@ -63,16 +63,16 @@ export default {
   },
   data() {
     return {
-      selectTag: "",
     };
   },
   methods: {
     ...mapActions(employeeDataStore, ["changePage"]),
-    
+    changeSelect() {
+    },
   },
   computed: {
-    ...mapWritableState(employeeDataStore, ["paginationData"]),
-    ...mapWritableState(useCollectStore, ["collectData"]),
+    ...mapWritableState(employeeDataStore, ["paginationData", "selectTag"]),
+    // ...mapWritableState(useCollectStore, ["collectData"]),
     ...mapState(employeeDataStore, ["employeeTags"]),
   },
 };
