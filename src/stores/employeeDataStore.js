@@ -14,6 +14,7 @@ export const employeeDataStore = defineStore("employeetData", {
     return {
       headers: [],
       employeeData: [],
+      excelData:[],
       // employeeTags: [],
       pagination: {
         per_page: 10,
@@ -43,16 +44,17 @@ export const employeeDataStore = defineStore("employeetData", {
     },
     async fetchExcelData() {
       try {
-        // const response = await fetch(VITE_API_URL);
-        const response = await fetch(
-          new URL(VITE_API_URL, import.meta.url).href
-        );
+        const response = await fetch(VITE_API_URL);
+        // const response = await fetch(
+        //   new URL(VITE_API_URL, import.meta.url).href
+        // );
+
         const data = await response.arrayBuffer();
         const workbook = read(data);
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         this.excelData = utils.sheet_to_json(worksheet, { header: 1 });
-
+          
         this.headers = this.excelData.shift();
         const excludeKey = ["臉書帳號", "Line帳號", "手機", "Mail"];
 
@@ -93,6 +95,32 @@ export const employeeDataStore = defineStore("employeetData", {
       } catch (error) {
         console.error("Error fetching and parsing workbook:", error);
       }
+    },
+    async fetchData() {
+      const f = await (await fetch(VITE_API_URL)).arrayBuffer();
+      const wb = read(f);
+      const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      
+      // const result = this.excelData.map((row, rowIndex) => {
+      //   return trimArray.reduce((obj, header, index) => {
+
+      //     // 將worksheetRowNum 數字塞入
+      //     obj.id = worksheetRowNum[rowIndex];
+      //     obj[header] = row[index];
+      //     // if (excludeKey.includes(header)) {
+      //     //   // console.log("row", row);
+      //     // }
+      //     if (header === "標籤") {
+      //       obj[header] = row[index].split("、");
+      //     }
+      //     if (typeof obj[header] === "string") {
+      //       obj[header] = obj[header];
+      //     }
+      //     return obj;
+      //   }, {});
+      // });
+      // this.employeeData = data;
+      console.log(data);
     },
   },
   getters: {

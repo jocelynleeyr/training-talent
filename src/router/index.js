@@ -14,6 +14,7 @@ const router = createRouter({
         getCollect.collectIds = collectStorage.get("collectStorage");
         const employeeData = employeeDataStore();
         await employeeData.fetchExcelData();
+        // await employeeData.fetchData();
       },
 
       children: [

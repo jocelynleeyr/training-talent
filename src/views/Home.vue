@@ -6,16 +6,13 @@
         <div class="flex flex-col flex-1">
           <div class="flex flex-col w-[500px]">
             <h3 class="text-[32px] pr-2">哩ㄟ齁厝邊集團</h3>
-            <div class="flex flex-row items-center justify-center ml-[100px] space-x-3">
-              <p
-                class="w-5 text-center text-[32px] text-netural-netural-400"
-              >
+            <div
+              class="flex flex-row items-center justify-center ml-[100px] space-x-3"
+            >
+              <p class="w-5 text-center text-[32px] text-netural-netural-400">
                 X
               </p>
-              <div
-                class="logo w-[120px] h-[40px] bg-netural-netural-400"
-                alt=""
-              ></div>
+              <div class="logo w-[120px] h-[40px] bg-netural-netural-400"></div>
             </div>
           </div>
         </div>
@@ -215,11 +212,15 @@
   </section>
 </template>
 <script>
+const { VITE_API_URL } = import.meta.env;
 import tshukathon from "@/assets/images/tshukathon.jpg";
 
 import useGlobalDialogStore from "@/stores/globalDialog.js";
 import { mapActions, mapState } from "pinia";
 import PageHeader from "@/components/PageHeader.vue";
+
+import { read, utils } from 'xlsx';
+import { employeeDataStore } from "../stores/employeeDataStore";
 export default {
   components: {
     tshukathon,
@@ -234,9 +235,13 @@ export default {
   },
   methods: {
     ...mapActions(useGlobalDialogStore, ["openModal"]),
+    ...mapActions(employeeDataStore, ["fetchData", "fetchExcelData"]),
   },
   // computed: {
   //   ...mapState(useGlobalDialogStore, ["show"]),
   // },
+  mounted() {
+    this.fetchExcelData()
+  },
 };
 </script>
