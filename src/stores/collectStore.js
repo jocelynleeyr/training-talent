@@ -8,7 +8,7 @@ import { employeeDataStore } from "@/stores/employeeDataStore.js";
 
 function defineStorage(key) {
   return {
-    get() {
+    get(key) {
       return JSON.parse(localStorage.getItem(key)) || [];
     },
     set(data) {
@@ -21,11 +21,13 @@ function defineStorage(key) {
 }
 
 export const collectStorage = defineStorage("collectStorage");
+export const compareStorage = defineStorage("compareStorage");
 export const useCollectStore = defineStore("collectStore", {
   state: () => ({
     collectData: [],
     compareData: [],
     collectIds: [],
+    compareIds: [],
   }),
   actions: {
     getCollects() {
@@ -37,15 +39,38 @@ export const useCollectStore = defineStore("collectStore", {
       });
     },
     toggleCollect(id) {
-      console.log("toggle");
       const collectId = this.collectIds.indexOf(id);
+      // 要抓相同 ID  
+      // const compareId = this.compareIds.indexOf(id);
+      console.log(compareId, collectId);
       if (collectId === -1) {
         this.collectIds.push(id);
       } else {
         this.collectIds.splice(collectId, 1);
+        // this.compareIds.splice(compareId, 1);
       }
       collectStorage.set(this.collectIds);
+      compareStorage.set(this.compareIds);
       this.getCollects();
+    },
+
+    getCompare() {
+      this.compareData = [];
+      employeeDataStore().modifyData.forEach((item) => {
+        if (this.compareIds.includes(item.id)) {
+          this.compareData.push(item);          
+        }
+      });
+    },
+    toggleCompare(id) {
+      const compareId = this.compareIds.indexOf(id);
+      if (compareId === -1) {
+        this.compareIds.push(id);
+      } else {
+        this.compareIds.splice(compareId, 1);
+      }
+      compareStorage.set(this.compareIds);
+      this.getCompare();
     },
   },
   getters: {},

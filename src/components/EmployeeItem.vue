@@ -47,6 +47,24 @@
         :id="employeeData.id"
         class="el-checkbox-input"
         type="checkbox"
+        v-model="compareIds"
+        :value="employeeData.id"
+        :checked="employeeData.isCompare"
+        @input="toggleCompare(employeeData.id)"
+        :disabled="isCheckboxDisabled(employeeData.id)"
+      />
+      <label :for="employeeData.id" class="el-checkbox-style">
+        <span class="material-icons-round"> check </span>
+      </label>
+    </div>
+    <!-- <div
+      v-if="employeeData.hasOwnProperty('isCompare')"
+      class="absolute top-2 left-6 flex flex-col el-checkbox"
+    >
+      <input
+        :id="employeeData.id"
+        class="el-checkbox-input"
+        type="checkbox"
         v-model="compareData"
         :value="employeeData"
         :checked="employeeData.isCompare"
@@ -55,7 +73,7 @@
       <label :for="employeeData.id" class="el-checkbox-style">
         <span class="material-icons-round"> check </span>
       </label>
-    </div>
+    </div> -->
     <div class="flex flex-col">
       <ul class="flex flex-col space-y-3">
         <li
@@ -117,16 +135,22 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(useCollectStore, ["toggleCollect"]),
+    ...mapActions(useCollectStore, [
+      "toggleCollect",
+      "toggleCompare",
+      "getCompare",
+    ]),
     insertItem(item) {
       this.$emit("insert", item);
     },
+    isCheckboxDisabled(item) {
+      return this.compareIds.length >= 3 && !this.compareIds.includes(item);
+    },
   },
   computed: {
-    ...mapState(useCollectStore, ["collectIds"]),
-    ...mapWritableState(useCollectStore, ["compareData"]),
-    
+    ...mapState(useCollectStore, ["collectIds", "compareIds", "compareData"]),
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>

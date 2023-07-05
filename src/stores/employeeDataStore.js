@@ -9,12 +9,14 @@ import router from "../router";
 import { read, utils } from "xlsx";
 const xlsxFile = new URL("@/assets/Employee20230704.xlsx", import.meta.url)
   .href;
+import { excelDateToJSDate } from "@/utils/common.js";
 export const employeeDataStore = defineStore("employeetData", {
   state: () => {
     return {
       headers: [],
       employeeData: [],
-      excelData:[],
+      excelData: [],
+      selectTag: "all",
       // employeeTags: [],
       pagination: {
         per_page: 10,
@@ -31,7 +33,7 @@ export const employeeDataStore = defineStore("employeetData", {
       this.paginationData.current_page = num;
     },
     pageNum() {
-      this.pagination.totalResult = this.modifyData.length;
+      this.pagination.totalResult = this.filterData.length;
       this.pagination.total_pages = Math.ceil(
         this.pagination.totalResult / this.pagination.per_page
       );
@@ -54,7 +56,7 @@ export const employeeDataStore = defineStore("employeetData", {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         this.excelData = utils.sheet_to_json(worksheet, { header: 1 });
-          
+
         this.headers = this.excelData.shift();
         const excludeKey = ["臉書帳號", "Line帳號", "手機", "Mail"];
 
@@ -77,15 +79,22 @@ export const employeeDataStore = defineStore("employeetData", {
 
             // 將worksheetRowNum 數字塞入
             obj.id = worksheetRowNum[rowIndex];
-            obj[header] = row[index];
+
             // if (excludeKey.includes(header)) {
             //   // console.log("row", row);
             // }
-            if (header === "標籤") {
+            if (
+              header === "到職日" ||
+              header === "出生年月日" ||
+              header === "離職日"
+            ) {
+              obj[header] = excelDateToJSDate(row[index]);
+            } else if (header === "標籤") {
               obj[header] = row[index].split("、");
-            }
-            if (typeof obj[header] === "string") {
+            } else if (typeof obj[header] === "string") {
               obj[header] = obj[header];
+            } else {
+              obj[header] = row[index];
             }
             return obj;
           }, {});
@@ -100,7 +109,7 @@ export const employeeDataStore = defineStore("employeetData", {
       const f = await (await fetch(VITE_API_URL)).arrayBuffer();
       const wb = read(f);
       const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-      
+
       // const result = this.excelData.map((row, rowIndex) => {
       //   return trimArray.reduce((obj, header, index) => {
 
@@ -132,7 +141,7 @@ export const employeeDataStore = defineStore("employeetData", {
         1;
       const maxItem = this.pagination.current_page * this.pagination.per_page;
       let data = [];
-      this.modifyData.forEach((item, i) => {
+      this.filterData.forEach((item, i) => {
         let itemNum = i + 1;
         if (itemNum >= minItem && itemNum <= maxItem) {
           data.push(item);
@@ -150,6 +159,13 @@ export const employeeDataStore = defineStore("employeetData", {
           collected: false,
         };
       });
+    },
+    filterData() {
+      return this.selectTag === "all"
+        ? this.modifyData
+        : this.modifyData.filter((item) =>
+            item["標籤"].includes(this.selectTag)
+          );
     },
     employeeTags() {
       const setKey = new Set();
