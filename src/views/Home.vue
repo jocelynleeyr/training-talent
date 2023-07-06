@@ -4,19 +4,19 @@
       <PageHeader page-title="iMatch" sub-title="無料事務所" />
       <div class="flex items-center">
         <div class="flex flex-col flex-1">
-          <div class="flex flex-col w-[500px]">
+          <div class="flex flex-col max-w-[500px]">
             <h3 class="text-[32px] pr-2">哩ㄟ齁厝邊集團</h3>
-            <div
+            <!-- <div
               class="flex flex-row items-center justify-center ml-[100px] space-x-3"
             >
               <p class="w-5 text-center text-[32px] text-netural-netural-400">
                 X
               </p>
               <div class="logo w-[120px] h-[40px] bg-netural-netural-400"></div>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div class="overflow-hidden max-w-[60%] ml-auto">
+        <div class="overflow-hidden flex items-center max-w-[60%] h-[300px] ml-auto">
           <img
             src="@/assets/images/pexels-sevenstorm-juhaszimrus-439379-640x480.jpg"
             alt=""

@@ -2,26 +2,26 @@
   <div class="flex flex-col flex-1 bg-netural-netural-200">
     <div class="container flex flex-col flex-1">
       <PageHeader page-title="Collect" sub-title="收藏" />
-      <AccordionItems :accordion-data="accordionData[0]">
-        <div class="flex flex-col flex-1">
-          <div class="flex flex-wrap gap-6 py-10">
-            <EmployeeItem
-              v-for="item in modifyCollectData"
-              :key="item.id"
-              :employee-data="item"
-            />
-          </div>
-        </div>
-      </AccordionItems>
-      <AccordionItems :accordion-data="accordionData[1]">
-        <div class="flex flex-row pt-10 space-x-6">
-          <CompareItem
-            v-for="item in checkCompareData"
+      <!-- <AccordionItems :accordion-data="accordionData[0]">
+      </AccordionItems> -->
+      <div class="flex flex-col flex-1">
+        <div class="flex flex-wrap gap-6 py-10">
+          <EmployeeItem
+            v-for="item in modifyCollectData"
             :key="item.id"
-            :compare-item="item"
+            :employee-data="item"
           />
         </div>
-      </AccordionItems>
+      </div>
+      <!-- <AccordionItems :accordion-data="accordionData[1]">
+      </AccordionItems> -->
+      <div class="flex flex-row pt-10 space-x-6">
+        <CompareItem
+          v-for="item in checkCompareData"
+          :key="item.id"
+          :compare-item="item"
+        />
+      </div>
       <!-- <div class="space-y-6">
         <div
           v-for="item in accordionData"
@@ -169,18 +169,18 @@ export default {
     ...mapActions(employeeDataStore, ["changePage"]),
     // ...mapActions(useCollectStore, ["addCollect", "removeCollect"]),
     ...mapActions(useCollectStore, ["getCollects", "getCompare"]),
-    addCompareItem(content) {
-      this.countCompareIndex += 1;
-      if (this.countCompareIndex >= this.compareList.length) {
-        this.countCompareIndex = this.compareList.length;
-      }
-      console.log("content", content);
-      this.compareList[this.countCompareIndex - 1] = {
-        ...content,
-        id: this.countCompareIndex,
-      };
-      compareStorage.set(this.compareList);
-    },
+    // addCompareItem(content) {
+    //   this.countCompareIndex += 1;
+    //   if (this.countCompareIndex >= this.compareList.length) {
+    //     this.countCompareIndex = this.compareList.length;
+    //   }
+    //   console.log("content", content);
+    //   this.compareList[this.countCompareIndex - 1] = {
+    //     ...content,
+    //     id: this.countCompareIndex,
+    //   };
+    //   compareStorage.set(this.compareList);
+    // },
 
     // removeCompareItem() {},
   },
