@@ -11,6 +11,7 @@
                 type="text"
                 class="form-input"
                 placeholder="搜尋 學校/科系/專業技能"
+                v-model.trim="searchKeyword"
               />
             </div>
           </div>
@@ -22,7 +23,9 @@
               </option>
             </select>
           </div>
-          <button type="button" class="btn-base">搜尋</button>
+          <button type="button" class="btn-base" @click="searchBtn">
+            搜尋
+          </button>
         </div>
       </div>
       <div class="flex items-center text-base">
@@ -49,7 +52,7 @@
 <script>
 import { mapActions, mapState, mapWritableState } from "pinia";
 import { employeeDataStore } from "@/stores/employeeDataStore.js";
-import { useCollectStore } from "@/stores/collectStore.js";
+// import { useCollectStore } from "@/stores/collectStore.js";
 
 import EmployeeItem from "@/components/EmployeeItem.vue";
 import PageHeader from "@/components/PageHeader.vue";
@@ -62,18 +65,61 @@ export default {
     PaginationComponent,
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     ...mapActions(employeeDataStore, ["changePage"]),
-    changeSelect() {
+    searchBtn() {
+      let filterData1 = [];
+      let filterData2 = [];
+      // 搜尋條件 1
+      filterData1 =
+        this.searchKeyword === ""
+          ? this.originData
+          : this.originData.filter(
+              (item) =>
+                this.filterKey(item["學校"], this.searchKeyword) ||
+                this.filterKey(item["科系"], this.searchKeyword) ||
+                this.filterKey(item["專業技能"], this.searchKeyword)
+            );
+
+      // 篩選條件 2
+      filterData2 =
+        this.selectTag === "all"
+          ? this.originData
+          : this.originData.filter((item) =>
+              item["標籤"].includes(this.selectTag)
+            );
+
+            // 多條件
+      // if (this.searchKeyword !== "" && this.selectTag) {
+      //   this.modifyData = filterData1
+      //     .filter(
+      //       (item) =>
+      //         this.filterKey(item["學校"], this.searchKeyword) ||
+      //         this.filterKey(item["科系"], this.searchKeyword) ||
+      //         this.filterKey(item["專業技能"], this.searchKeyword)
+      //     )
+      //     .filter((item) => item["標籤"].includes(this.selectTag));
+      // }
+      // console.log("filterData1", filterData1);
+      this.modifyData = filterData1;
+    },
+    filterKey(content, searchTarget) {
+      if (content)
+        return content.toLowerCase().includes(searchTarget.toLowerCase());
     },
   },
   computed: {
-    ...mapWritableState(employeeDataStore, ["paginationData", "selectTag"]),
+    ...mapWritableState(employeeDataStore, [
+      "paginationData",
+      "selectTag",
+      "searchKeyword",
+      "modifyData",
+      "selectFilter",
+    ]),
     // ...mapWritableState(useCollectStore, ["collectData"]),
-    ...mapState(employeeDataStore, ["employeeTags"]),
+    ...mapState(employeeDataStore, ["employeeTags", "originData"]),
   },
 };
 </script>

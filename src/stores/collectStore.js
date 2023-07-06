@@ -42,7 +42,7 @@ export const useCollectStore = defineStore("collectStore", {
       const collectId = this.collectIds.indexOf(id);
       // 要抓相同 ID  
       // const compareId = this.compareIds.indexOf(id);
-      console.log(compareId, collectId);
+      // console.log(compareId, collectId);
       if (collectId === -1) {
         this.collectIds.push(id);
       } else {

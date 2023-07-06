@@ -17,7 +17,11 @@ export const employeeDataStore = defineStore("employeetData", {
       employeeData: [],
       excelData: [],
       selectTag: "all",
+      searchKeyword: "",
       // employeeTags: [],
+      selectFilter:[],
+      originData: [],
+      modifyData:[],
       pagination: {
         per_page: 10,
         totalResult: 0,
@@ -33,16 +37,7 @@ export const employeeDataStore = defineStore("employeetData", {
       this.paginationData.current_page = num;
     },
     pageNum() {
-      this.pagination.totalResult = this.filterData.length;
-      this.pagination.total_pages = Math.ceil(
-        this.pagination.totalResult / this.pagination.per_page
-      );
-      if (this.pagination.current_page > this.pagination.total_pages) {
-        this.pagination.current_page = this.pagination.total_pages;
-      }
-      if (this.pagination.current_page <= 1) {
-        this.pagination.current_page = 1;
-      }
+      
     },
     async fetchExcelData() {
       try {
@@ -57,7 +52,8 @@ export const employeeDataStore = defineStore("employeetData", {
         const worksheet = workbook.Sheets[sheetName];
         this.excelData = utils.sheet_to_json(worksheet, { header: 1 });
 
-        this.headers = this.excelData.shift();
+        this.headers = this.excelData.shift()
+        this.headers.push("collected");
         const excludeKey = ["臉書帳號", "Line帳號", "手機", "Mail"];
 
         const trimArray = Object.values(this.headers).map((item) =>
@@ -89,6 +85,8 @@ export const employeeDataStore = defineStore("employeetData", {
               header === "離職日"
             ) {
               obj[header] = excelDateToJSDate(row[index]);
+            } else if(header === "collected"){
+              obj[header] = false
             } else if (header === "標籤") {
               obj[header] = row[index].split("、");
             } else if (typeof obj[header] === "string") {
@@ -100,7 +98,8 @@ export const employeeDataStore = defineStore("employeetData", {
           }, {});
         });
 
-        this.employeeData = result;
+        this.modifyData = result;
+        this.originData = result;
       } catch (error) {
         console.error("Error fetching and parsing workbook:", error);
       }
@@ -134,14 +133,24 @@ export const employeeDataStore = defineStore("employeetData", {
   },
   getters: {
     paginationData() {
-      this.pageNum();
+      this.pagination.totalResult = this.modifyData.length;
+      this.pagination.total_pages = Math.ceil(
+        this.pagination.totalResult / this.pagination.per_page
+      );
+      if (this.pagination.current_page > this.pagination.total_pages) {
+        this.pagination.current_page = this.pagination.total_pages;
+      }
+      if (this.pagination.current_page <= 1) {
+        this.pagination.current_page = 1;
+      }
+
       const minItem =
         this.pagination.current_page * this.pagination.per_page -
         this.pagination.per_page +
         1;
       const maxItem = this.pagination.current_page * this.pagination.per_page;
       let data = [];
-      this.filterData.forEach((item, i) => {
+      this.modifyData.forEach((item, i) => {
         let itemNum = i + 1;
         if (itemNum >= minItem && itemNum <= maxItem) {
           data.push(item);
@@ -152,24 +161,9 @@ export const employeeDataStore = defineStore("employeetData", {
         data,
       };
     },
-    modifyData() {
-      return this.employeeData.map((item) => {
-        return {
-          ...item,
-          collected: false,
-        };
-      });
-    },
-    filterData() {
-      return this.selectTag === "all"
-        ? this.modifyData
-        : this.modifyData.filter((item) =>
-            item["標籤"].includes(this.selectTag)
-          );
-    },
     employeeTags() {
       const setKey = new Set();
-      this.employeeData.forEach((item) => {
+      this.originData.forEach((item) => {
         if (item["標籤"]) {
           item["標籤"].forEach((tag) => {
             setKey.add(tag);
