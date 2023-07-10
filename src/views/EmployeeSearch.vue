@@ -28,17 +28,30 @@
           </button>
         </div>
       </div>
-      <div class="flex items-center text-base">
-        <div class="flex items-center whitespace-nowrap space-x-3"></div>
+      <div class="flex items-center text-base pb-4">
+        <div class="flex items-end whitespace-nowrap space-x-3">
+          共
+          <span class="block px-2 font-bold text-xl text-primary-primary-100">{{
+            modifyData.length
+          }}</span>
+          筆資料
+        </div>
       </div>
       <div class="flex flex-col flex-1">
-        <div class="flex flex-wrap gap-6 py-10">
+        <Loading v-if="isLoading" />
+        <div v-if="!isLoading" class="flex flex-wrap gap-6 py-10">
           <EmployeeItem
             v-for="item in paginationData.data"
             :key="item.id"
             :employee-data="item"
           />
         </div>
+        <p
+          v-if="!modifyData.length && !isLoading"
+          class="text-center text-lg font-bold"
+        >
+          沒有符合的資料，請使用其他條件重新搜尋
+        </p>
       </div>
       <div class="mt-auto">
         <PaginationComponent
@@ -52,58 +65,50 @@
 <script>
 import { mapActions, mapState, mapWritableState } from "pinia";
 import { employeeDataStore } from "@/stores/employeeDataStore.js";
-// import { useCollectStore } from "@/stores/collectStore.js";
 
 import EmployeeItem from "@/components/EmployeeItem.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import PaginationComponent from "@/components/Pagination.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   components: {
     EmployeeItem,
     PageHeader,
     PaginationComponent,
+    Loading
   },
   data() {
-    return {};
+    return {
+      isLoading: false,
+    };
   },
   methods: {
     ...mapActions(employeeDataStore, ["changePage"]),
     searchBtn() {
-      let filterData1 = [];
-      let filterData2 = [];
-      // 搜尋條件 1
-      filterData1 =
-        this.searchKeyword === ""
-          ? this.originData
-          : this.originData.filter(
-              (item) =>
-                this.filterKey(item["學校"], this.searchKeyword) ||
-                this.filterKey(item["科系"], this.searchKeyword) ||
-                this.filterKey(item["專業技能"], this.searchKeyword)
-            );
-
-      // 篩選條件 2
-      filterData2 =
-        this.selectTag === "all"
-          ? this.originData
-          : this.originData.filter((item) =>
-              item["標籤"].includes(this.selectTag)
-            );
-
-            // 多條件
-      // if (this.searchKeyword !== "" && this.selectTag) {
-      //   this.modifyData = filterData1
-      //     .filter(
-      //       (item) =>
-      //         this.filterKey(item["學校"], this.searchKeyword) ||
-      //         this.filterKey(item["科系"], this.searchKeyword) ||
-      //         this.filterKey(item["專業技能"], this.searchKeyword)
-      //     )
-      //     .filter((item) => item["標籤"].includes(this.selectTag));
-      // }
-      // console.log("filterData1", filterData1);
-      this.modifyData = filterData1;
+      this.isLoading = true
+      const searchText = this.searchKeyword.toLowerCase();
+      this.modifyData = this.originData.filter((item) => {
+        if (
+          this.selectTag !== "all" &&
+          (!item["標籤"] || !item["標籤"].includes(this.selectTag))
+        )
+          return false;
+        if (
+          searchText !== "" &&
+          !(
+            this.filterKey(item["學校"], searchText) ||
+            this.filterKey(item["科系"], searchText) ||
+            this.filterKey(item["專業技能"], searchText)
+          )
+        ) {
+          return false;
+        }
+        return true;
+      });
+      setTimeout(() => {
+        this.isLoading = false
+      }, 700);
     },
     filterKey(content, searchTarget) {
       if (content)
