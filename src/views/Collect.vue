@@ -15,9 +15,13 @@
       </div>
       <!-- <AccordionItems :accordion-data="accordionData[1]">
       </AccordionItems> -->
-      <div class="flex flex-row pt-10 space-x-6">
+      <div
+        class="flex flex-row pt-10 space-x-6 group"
+        ref="compareWrap"
+        :class="{ '-sticky': isSticky }"
+      >
         <CompareItem
-          v-for="item in checkCompareData"
+          v-for="item in compareData"
           :key="item.id"
           :compare-item="item"
         />
@@ -126,37 +130,19 @@ export default {
       compareList: [
         {
           id: 1,
-          // number: "",
-          // employeeName: "",
-          // school: "",
-          // department: "",
-          // skills: "",
-          // experience: "",
-          // collected: false,
+          
         },
         {
           id: 2,
-          // number: "",
-          // employeeName: "",
-          // school: "",
-          // department: "",
-          // skills: "",
-          // experience: "",
-          // collected: false,
         },
         {
           id: 3,
-          // number: "",
-          // employeeName: "",
-          // school: "",
-          // department: "",
-          // skills: "",
-          // experience: "",
-          // collected: false,
         },
       ],
 
       countCompareIndex: 0,
+      isSticky: false,
+      compareWrap: null,
     };
   },
   components: {
@@ -195,14 +181,36 @@ export default {
         };
       });
     },
-    checkCompareData(){
-      return this.compareData.length  ?  this.compareData : this.compareList
-    }
+    checkCompareData() {
+      return this.compareData.length ? this.compareData : this.compareList;
+    },
+  },
+  updated() {
+    
+    // console.log(this.compareWrap);
+    // const observer = new IntersectionObserver(
+    //   (entries, owner) => {
+    //     console.log(owner); // IntersectionObserver 實體
+    //     entries.forEach((entry) => {
+    //       console.log(entry); // IntersectionObserverEntry 物件
+    //     });
+    //   },
+    //   { threshold: [1] }
+    // );
+    // observer.observe(this.compareWrap);
   },
   mounted() {
     // 取得 收藏 與 比較 完整資料內容
     this.getCollects();
     this.getCompare();
+    
+    // console.log(this.$refs);
+    // this.compareWrap = this.$refs.compareWrap;
+    
+    // const observer = new IntersectionObserver(
+    //   ([e]) => e.target.classList.toggle("-sticky", e.intersectionRatio < 1), { threshold: [1] }
+    // );
+    
   },
 };
 </script>

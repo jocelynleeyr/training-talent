@@ -1,37 +1,15 @@
 <template>
   <div
     class="relative flex flex-col w-[220px] p-6 mb-8 space-y-2 rounded-xl bg-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] cursor-pointer group"
-    :class="{ '-active': employeeData.collected }"
+    :class="{ '-active': employeeData.collected }" @click="$emit('open')"
   >
-    <div
-      class="relative flex items-center justify-center rounded-full mx-auto mt-[calc(-112px/2)] bg-white text-neutral-400"
-    >
-      <span class="material-icons-round text-[64px]"> face </span>
-    </div>
-    <div
-      v-if="this.$route.path === '/employeesearch'"
-      class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
-      title="加入收藏"
-      @click="toggleCollect(employeeData.id)"
-    >
-      <span
-        v-if="collectIds.indexOf(employeeData.id) === -1"
-        class="absolute top-0 left-0 material-icons-round text-3xl text-neutral-300"
-      >
-        star_border
-      </span>
-      <span
-        v-else
-        class="absolute top-0 left-0 material-icons-round text-3xl text-yellow-400"
-      >
-        star
-      </span>
-    </div>
+    <EmployeeFaceIcon  class="mx-auto mt-[calc(-112px/2)]" />
+    <ToggleCollectIcon v-if="this.$route.path === '/employeesearch'" :employee-data="employeeData" class="absolute right-0 top-0"/>
     <div
       v-if="this.$route.path === '/collect'"
       class="absolute right-0 top-0 w-10 h-10 cursor-pointer"
       title="移除"
-      @click="toggleCollect(employeeData.id)"
+      @click.stop.prevent="toggleCollect(employeeData.id)"
     >
       <span
         class="absolute top-0 left-0 material-icons-round text-3xl text-neutral-300"
@@ -57,6 +35,7 @@
         <span class="material-icons-round"> check </span>
       </label>
     </div>
+    
     <!-- <div
       v-if="employeeData.hasOwnProperty('isCompare')"
       class="absolute top-2 left-6 flex flex-col el-checkbox"
@@ -124,12 +103,23 @@
 <script>
 import { mapActions, mapState, mapWritableState } from "pinia";
 import { useCollectStore } from "@/stores/collectStore.js";
+
+import ToggleCollectIcon from '@/components/ToggleCollectIcon.vue'
+import EmployeeFaceIcon from '@/components/EmployeeFaceIcon.vue'
 export default {
   props: {
     employeeData: {
       type: Object,
       default: {},
     },
+    // openModal: {
+    //   type: Function,
+    //   default: () => {},
+    // }
+  },
+  components: {
+    ToggleCollectIcon,
+    EmployeeFaceIcon
   },
   data() {
     return {};

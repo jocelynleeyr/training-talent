@@ -40,14 +40,15 @@ export const useCollectStore = defineStore("collectStore", {
     },
     toggleCollect(id) {
       const collectId = this.collectIds.indexOf(id);
+      const compareId = this.compareIds.indexOf(id);
       // 要抓相同 ID  
-      // const compareId = this.compareIds.indexOf(id);
-      // console.log(compareId, collectId);
       if (collectId === -1) {
         this.collectIds.push(id);
       } else {
+        // 移除 collectId
         this.collectIds.splice(collectId, 1);
-        // this.compareIds.splice(compareId, 1);
+        // 同時移除與 compareId 相同的資料
+        this.compareIds.splice(compareId, 1);
       }
       collectStorage.set(this.collectIds);
       compareStorage.set(this.compareIds);
@@ -63,6 +64,7 @@ export const useCollectStore = defineStore("collectStore", {
       });
     },
     toggleCompare(id) {
+      console.log("toggleCompare");
       const compareId = this.compareIds.indexOf(id);
       if (compareId === -1) {
         this.compareIds.push(id);

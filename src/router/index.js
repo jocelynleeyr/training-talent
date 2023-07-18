@@ -18,7 +18,6 @@ const router = createRouter({
         
         const employeeData = employeeDataStore();
         await employeeData.fetchExcelData();
-        // await employeeData.fetchData();
       },
 
       children: [

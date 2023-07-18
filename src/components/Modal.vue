@@ -8,7 +8,7 @@
     <div
       class="fixed z-[1000] inset-0 m-auto overflow-y-auto flex items-center justify-center p-4 invisible opacity-0 group-[.-show]:opacity-100 group-[.-show]:visible"
     >
-      <div class="relative w-full h-full flex">
+      <div class="overflow-hidden relative w-full h-full flex rounded-xl">
         <slot></slot>
       </div>
     </div>
@@ -19,7 +19,13 @@
 </template>
 <script>
 export default {
-  props: ["modelValue"],
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   data() {
     return {
       ifShow: false,
@@ -38,6 +44,13 @@ export default {
         window.setTimeout(() => {
           this.ifShow = false;
         }, 0);
+      }
+    },
+    ifShow(val) {
+      if (val) {
+        document.body.classList.add("overflow-hidden");
+      } else {
+        document.body.classList.remove("overflow-hidden");
       }
     },
   },

@@ -19,9 +19,9 @@ export const employeeDataStore = defineStore("employeetData", {
       selectTag: "all",
       searchKeyword: "",
       // employeeTags: [],
-      selectFilter:[],
+      selectFilter: [],
       originData: [],
-      modifyData:[],
+      modifyData: [],
       pagination: {
         per_page: 10,
         totalResult: 0,
@@ -36,9 +36,7 @@ export const employeeDataStore = defineStore("employeetData", {
       this.pagination.current_page = num;
       this.paginationData.current_page = num;
     },
-    pageNum() {
-      
-    },
+    pageNum() {},
     async fetchExcelData() {
       try {
         const response = await fetch(VITE_API_URL);
@@ -52,14 +50,18 @@ export const employeeDataStore = defineStore("employeetData", {
         const worksheet = workbook.Sheets[sheetName];
         this.excelData = utils.sheet_to_json(worksheet, { header: 1 });
 
-        this.headers = this.excelData.shift()
-        this.headers.push("collected");
         const excludeKey = ["臉書帳號", "Line帳號", "手機", "Mail"];
+        const originHeader = this.excelData.shift();
+        originHeader.push("collected");
 
-        const trimArray = Object.values(this.headers).map((item) =>
+        this.headers = Object.assign([], originHeader).filter(
+          (key) => !excludeKey.includes(key)
+        );
+
+        const trimArray = Object.values(originHeader).map((item) =>
           item.trim()
         );
-        // console.log("trimArray", trimArray);
+
         // 取出 Excel A欄位  //篩選出Excel A開頭 欄位的資料，然後分割字串，移除A字，取得數字資料
         const worksheetRow = Object.keys(worksheet)
           .filter((worksheet, index) => /^A[^A-Za-z]/.test(worksheet))
@@ -68,25 +70,17 @@ export const employeeDataStore = defineStore("employeetData", {
 
         const result = this.excelData.map((row, rowIndex) => {
           return trimArray.reduce((obj, header, index) => {
-            // const filterHeader = excludeKey.filter(
-            //   (item) => excludeKey.includes(header)
-            // );
-            // console.log("filterHeader", filterHeader);
-
             // 將worksheetRowNum 數字塞入
             obj.id = worksheetRowNum[rowIndex];
 
-            // if (excludeKey.includes(header)) {
-            //   // console.log("row", row);
-            // }
             if (
               header === "到職日" ||
               header === "出生年月日" ||
               header === "離職日"
             ) {
               obj[header] = excelDateToJSDate(row[index]);
-            } else if(header === "collected"){
-              obj[header] = false
+            } else if (header === "collected") {
+              obj[header] = false;
             } else if (header === "標籤") {
               obj[header] = row[index].split("、");
             } else if (typeof obj[header] === "string") {
@@ -97,38 +91,19 @@ export const employeeDataStore = defineStore("employeetData", {
             return obj;
           }, {});
         });
-
-        this.modifyData = result;
-        this.originData = result;
+        const excludeKeyData = result.map((item) => {
+          return Object.keys(item)
+            .filter((key) => !excludeKey.includes(key))
+            .reduce((acc, key) => {
+              acc[key] = item[key];
+              return acc;
+            }, {});
+        });
+        this.modifyData = excludeKeyData;
+        this.originData = excludeKeyData;
       } catch (error) {
         console.error("Error fetching and parsing workbook:", error);
       }
-    },
-    async fetchData() {
-      const f = await (await fetch(VITE_API_URL)).arrayBuffer();
-      const wb = read(f);
-      const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-
-      // const result = this.excelData.map((row, rowIndex) => {
-      //   return trimArray.reduce((obj, header, index) => {
-
-      //     // 將worksheetRowNum 數字塞入
-      //     obj.id = worksheetRowNum[rowIndex];
-      //     obj[header] = row[index];
-      //     // if (excludeKey.includes(header)) {
-      //     //   // console.log("row", row);
-      //     // }
-      //     if (header === "標籤") {
-      //       obj[header] = row[index].split("、");
-      //     }
-      //     if (typeof obj[header] === "string") {
-      //       obj[header] = obj[header];
-      //     }
-      //     return obj;
-      //   }, {});
-      // });
-      // this.employeeData = data;
-      console.log(data);
     },
   },
   getters: {

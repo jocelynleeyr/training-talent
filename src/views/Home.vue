@@ -16,7 +16,9 @@
             </div> -->
           </div>
         </div>
-        <div class="overflow-hidden flex items-center max-w-[60%] h-[300px] ml-auto">
+        <div
+          class="overflow-hidden flex items-center max-w-[60%] h-[300px] ml-auto"
+        >
           <img
             src="@/assets/images/pexels-sevenstorm-juhaszimrus-439379-640x480.jpg"
             alt=""
@@ -136,7 +138,7 @@
         </div>
         <div
           class="absolute right-0 w-[630px] -bottom-[330px] cursor-pointer"
-          @click="openModal"
+          @click="lightBox.show = true"
         >
           <img :src="infoData.imageUrl" alt="" />
         </div>
@@ -210,6 +212,13 @@
       </div>
     </div>
   </section>
+  <Modal v-model="lightBox.show">
+    <LightBox
+      :image-url="infoData.imageUrl"
+      header-title="OPEN MIND!"
+      @close="lightBox.show = false"
+    />
+  </Modal>
 </template>
 <script>
 const { VITE_API_URL } = import.meta.env;
@@ -218,30 +227,36 @@ import tshukathon from "@/assets/images/tshukathon.jpg";
 import useGlobalDialogStore from "@/stores/globalDialog.js";
 import { mapActions, mapState } from "pinia";
 import PageHeader from "@/components/PageHeader.vue";
-
-import { read, utils } from 'xlsx';
+import LightBox from "@/components/LightBox.vue";
+import Modal from "@/components/Modal.vue";
+import { read, utils } from "xlsx";
 import { employeeDataStore } from "../stores/employeeDataStore";
 export default {
   components: {
     tshukathon,
     PageHeader,
+    Modal,
+    LightBox,
   },
   data() {
     return {
       infoData: {
         imageUrl: tshukathon,
       },
+      lightBox: {
+        show: false,
+      },
     };
   },
   methods: {
     ...mapActions(useGlobalDialogStore, ["openModal"]),
-    ...mapActions(employeeDataStore, ["fetchData", "fetchExcelData"]),
+    ...mapActions(employeeDataStore, ["fetchExcelData"]),
   },
   // computed: {
   //   ...mapState(useGlobalDialogStore, ["show"]),
   // },
   mounted() {
-    this.fetchExcelData()
+    this.fetchExcelData();
   },
 };
 </script>

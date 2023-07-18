@@ -9,11 +9,15 @@
         </p>
       </div> -->
       <div
-        class="absolute right-4 top-4 flex items-center w-10 h-10 p-4 cursor-pointer"
-        @click="close"
+        class="absolute right-4 top-4 z-10 w-10 h-10 flex justify-center items-center p-4 cursor-pointer"
+        @click="$emit('close')"
       >
-        <div>
-          <span class="material-icons-round text-[40px] text-netural-netural-100"> close </span>
+        <div class="w-10 h-10">
+          <div
+            class="material-icons-round text-[40px] text-netural-netural-100"
+          >
+            close
+          </div>
         </div>
       </div>
     </div>
@@ -46,11 +50,11 @@ export default {
     //   default: "標題",
     // },
   },
-  methods: {
-    ...mapActions(useGlobalDialogStore, ["closeDialog"]),
-    close() {
-      useGlobalDialogStore().closeDialog();
-    },
-  },
+  // methods: {
+  //   ...mapActions(useGlobalDialogStore, ["closeDialog"]),
+  //   close() {
+  //     useGlobalDialogStore().closeDialog();
+  //   },
+  // },
 };
 </script>
