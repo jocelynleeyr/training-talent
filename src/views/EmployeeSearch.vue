@@ -44,6 +44,7 @@
             v-for="item in paginationData.data"
             :key="item.id"
             :employee-data="item"
+            @open="openDetail(item)"
           />
         </div>
         <p
@@ -60,6 +61,9 @@
         />
       </div>
     </div>
+    <Modal v-model="employeeModal.show">
+      <EmployeeDetail @close="employeeModal.show = false" :employee-data="tempDetail" />
+    </Modal>
   </div>
 </template>
 <script>
@@ -70,23 +74,31 @@ import EmployeeItem from "@/components/EmployeeItem.vue";
 import PageHeader from "@/components/PageHeader.vue";
 import PaginationComponent from "@/components/Pagination.vue";
 import Loading from "@/components/Loading.vue";
+import Modal from "@/components/Modal.vue";
+import EmployeeDetail from "@/components/EmployeeDetail.vue";
 
 export default {
   components: {
     EmployeeItem,
     PageHeader,
     PaginationComponent,
-    Loading
+    Loading,
+    Modal,
+    EmployeeDetail,
   },
   data() {
     return {
       isLoading: false,
+      employeeModal: {
+        show: false,
+      },
+      tempDetail: {},
     };
   },
   methods: {
     ...mapActions(employeeDataStore, ["changePage"]),
     searchBtn() {
-      this.isLoading = true
+      this.isLoading = true;
       const searchText = this.searchKeyword.toLowerCase();
       this.modifyData = this.originData.filter((item) => {
         if (
@@ -107,12 +119,17 @@ export default {
         return true;
       });
       setTimeout(() => {
-        this.isLoading = false
+        this.isLoading = false;
       }, 700);
     },
     filterKey(content, searchTarget) {
       if (content)
         return content.toLowerCase().includes(searchTarget.toLowerCase());
+    },
+    openDetail(item) {
+      this.employeeModal.show = true;
+      console.log("item", item);
+      this.tempDetail = Object.assign({}, item);
     },
   },
   computed: {

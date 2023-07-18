@@ -1,8 +1,8 @@
-export function checkContentEmpty(data) {
+export const checkContentEmpty = (data) => {
   return data ? data : "-";
-}
+};
 
-export function excelDateToJSDate(serial) {
+export const excelDateToJSDate = (serial) => {
   let utc_days = Math.floor(serial - 25569);
   let utc_value = utc_days * 86400;
   let date_info = new Date(utc_value * 1000);
@@ -26,4 +26,4 @@ export function excelDateToJSDate(serial) {
     minutes,
     seconds
   ).toLocaleDateString();
-}
+};
