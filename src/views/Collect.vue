@@ -16,7 +16,7 @@
       <!-- <AccordionItems :accordion-data="accordionData[1]">
       </AccordionItems> -->
       <div
-        class="flex flex-row pt-10 space-x-6 group"
+        class="flex flex-row pt-10 group"
         ref="compareWrap"
         :class="{ '-sticky': isSticky }"
       >
@@ -174,6 +174,7 @@ export default {
     ...mapState(useCollectStore, ["collectData", "compareData"]),
     // 整理 收藏資料
     modifyCollectData() {
+      // console.log('this.collectData',this.collectData);
       return this.collectData.map((item) => {
         return {
           ...item,
@@ -181,9 +182,9 @@ export default {
         };
       });
     },
-    checkCompareData() {
-      return this.compareData.length ? this.compareData : this.compareList;
-    },
+    // checkCompareData() {
+    //   return this.compareData.length ? this.compareData : this.compareList;
+    // },
   },
   updated() {
     

@@ -35,24 +35,6 @@
         <span class="material-icons-round"> check </span>
       </label>
     </div>
-    
-    <!-- <div
-      v-if="employeeData.hasOwnProperty('isCompare')"
-      class="absolute top-2 left-6 flex flex-col el-checkbox"
-    >
-      <input
-        :id="employeeData.id"
-        class="el-checkbox-input"
-        type="checkbox"
-        v-model="compareData"
-        :value="employeeData"
-        :checked="employeeData.isCompare"
-        @input="insertItem(compareData)"
-      />
-      <label :for="employeeData.id" class="el-checkbox-style">
-        <span class="material-icons-round"> check </span>
-      </label>
-    </div> -->
     <div class="flex flex-col">
       <ul class="flex flex-col space-y-3">
         <li
