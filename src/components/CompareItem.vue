@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col flex-grow-0 w-1/3 py-6 mb-8 space-y-2 rounded-xl bg-white group"
+    class="relative flex flex-col w-[calc(33.333%-theme(space.6)/2)] py-6 mb-8 ml-6 [&:first-child]:ml-0 space-y-2 rounded-xl bg-white group"
     :class="{ 'opacity-60': compareItem.isCompare }"
   >
     <ul class="flex flex-col divide-y">
@@ -13,7 +13,7 @@
             {{ item }}
           </h4>
           <p
-            class="flex-grow-0 flex-shrink whitespace-nowrap text-lg break-words leading-5 text-netural-netural-400"
+            class="flex-grow-0 flex-shrink text-lg break-all leading-5 text-netural-netural-400"
           >
             {{ checkContentEmpty(compareItem[item]) }}
           </p>
@@ -37,7 +37,7 @@
             {{ item }}
           </h4>
           <p
-            class="flex-grow-0 flex-shrink whitespace-nowrap text-lg break-words leading-5 text-netural-netural-400"
+            class="flex-grow-0 flex-shrink text-lg break-all leading-5 text-netural-netural-400"
           >
             {{ checkContentEmpty(compareItem[item]) }}
           </p>

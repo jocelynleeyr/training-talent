@@ -30,18 +30,32 @@ export const useCollectStore = defineStore("collectStore", {
     compareIds: [],
   }),
   actions: {
-    getCollects() {
+    getCollects(id) {
       this.collectData = [];
-      employeeDataStore().modifyData.forEach((item) => {
-        if (this.collectIds.includes(item.id)) {
-          this.collectData.push(item);
+      // 依加入先後順序排序
+      this.collectIds.forEach((id) => {
+        const findItem = employeeDataStore().modifyData.find(
+          (obj) => obj.id === id
+        );
+        if (findItem) {
+          this.collectData.push(findItem);
         }
       });
+
+      // 依原始陣列順序排序
+      // employeeDataStore().modifyData.forEach((item) => {
+      //   if (this.collectIds.includes(item.id)) {
+
+      //     this.collectData.push(item)
+
+      //   }
+
+      // });
     },
     toggleCollect(id) {
       const collectId = this.collectIds.indexOf(id);
       const compareId = this.compareIds.indexOf(id);
-      // 要抓相同 ID  
+      // 要抓相同 ID
       if (collectId === -1) {
         this.collectIds.push(id);
       } else {
@@ -52,16 +66,29 @@ export const useCollectStore = defineStore("collectStore", {
       }
       collectStorage.set(this.collectIds);
       compareStorage.set(this.compareIds);
-      this.getCollects();
+      this.getCollects(id);
+      // 更新localStorage
+      this.getCompare();
     },
 
     getCompare() {
       this.compareData = [];
-      employeeDataStore().modifyData.forEach((item) => {
-        if (this.compareIds.includes(item.id)) {
-          this.compareData.push(item);          
+      // 依加入先後順序排序
+      this.compareIds.forEach((id) => {
+        const findItem = employeeDataStore().modifyData.find(
+          (obj) => obj.id === id
+        );
+        if (findItem) {
+          this.compareData.push(findItem);
         }
       });
+
+      // 依原始陣列順序排序
+      // employeeDataStore().modifyData.forEach((item) => {
+      //   if (this.compareIds.includes(item.id)) {
+      //     this.compareData.push(item);
+      //   }
+      // });
     },
     toggleCompare(id) {
       console.log("toggleCompare");

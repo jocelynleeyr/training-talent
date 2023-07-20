@@ -28,32 +28,37 @@
           </button>
         </div>
       </div>
-      <div class="flex items-center text-base pb-4">
-        <div class="flex items-end whitespace-nowrap space-x-3">
-          共
-          <span class="block px-2 font-bold text-xl text-primary-primary-100">{{
-            modifyData.length
-          }}</span>
-          筆資料
-        </div>
-      </div>
-      <div class="flex flex-col flex-1">
-        <Loading v-if="isLoading" />
-        <div v-if="!isLoading" class="flex flex-wrap gap-6 py-10">
-          <EmployeeItem
-            v-for="item in paginationData.data"
-            :key="item.id"
-            :employee-data="item"
-            @open="openDetail(item)"
-          />
-        </div>
-        <p
-          v-if="!modifyData.length && !isLoading"
-          class="text-center text-lg font-bold"
-        >
-          沒有符合的資料，請使用其他條件重新搜尋
-        </p>
-      </div>
+      <transition-group name="fade">
+        <template v-if="!isLoading">
+          <div class="flex items-center text-base pb-4">
+            <div class="flex items-end whitespace-nowrap space-x-3">
+              共
+              <span
+                class="block px-2 font-bold text-xl text-primary-primary-100"
+                >{{ modifyData.length }}</span
+              >
+              筆資料
+            </div>
+          </div>
+          <div class="flex flex-col flex-1">
+            <div v-if="!isLoading" class="flex flex-wrap gap-6 py-10">
+              <EmployeeItem
+                v-for="(item, index) in paginationData.data"
+                :key="item.id"
+                :employee-data="item"
+                @open="openDetail(item)"
+              />
+            </div>
+            <p
+              v-if="!modifyData.length && !isLoading"
+              class="text-center text-lg font-bold"
+            >
+              沒有符合的資料，請使用其他條件重新搜尋
+            </p>
+          </div>
+        </template>
+      </transition-group>
+      <Loading v-if="isLoading" />
       <div class="mt-auto">
         <PaginationComponent
           :pages="paginationData"
@@ -62,7 +67,12 @@
       </div>
     </div>
     <Modal v-model="employeeModal.show">
-      <EmployeeDetail @close="employeeModal.show = false" :employee-data="tempDetail" />
+      <EmployeeDetail
+        @close="employeeModal.show = false"
+        :employee-data="tempDetail"
+        @prev-item="prevItem"
+        @next-item="nextItem"
+      />
     </Modal>
   </div>
 </template>
@@ -93,6 +103,7 @@ export default {
         show: false,
       },
       tempDetail: {},
+      currentIndex: 0,
     };
   },
   methods: {
@@ -128,8 +139,27 @@ export default {
     },
     openDetail(item) {
       this.employeeModal.show = true;
-      console.log("item", item);
       this.tempDetail = Object.assign({}, item);
+      this.currentIndex = this.paginationData.data.findIndex(obj=> obj.id === item.id)
+    },
+    nextItem() {
+      this.currentIndex += 1;
+      this.changeDetailView();
+    },
+    prevItem() {
+      this.currentIndex -= 1;
+      this.changeDetailView();
+      
+    },
+    changeDetailView() {
+      if (this.currentIndex >= this.paginationData.data.length-1) {
+        this.currentIndex = this.paginationData.data.length-1;
+        console.log('this.currentIndex',this.currentIndex);
+      }else if (this.currentIndex <= 0) {
+        this.currentIndex = 0;
+      }
+      this.tempDetail = Object.assign({}, this.paginationData.data[this.currentIndex]);
+      
     },
   },
   computed: {
@@ -145,3 +175,27 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.slide-leave-active,
+.slide-enter-active {
+  transition: 0.5s ease-in;
+}
+.slide-enter-from {
+  transform: translateY(-100%);
+}
+.slide-leave-to {
+  transform: translateY(100%);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease-in-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+</style>
