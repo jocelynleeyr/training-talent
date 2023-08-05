@@ -10,16 +10,14 @@ const router = createRouter({
       name: "FrontLayout",
       component: () => import("@/views/FrontLayout.vue"),
       async beforeEnter(to, from) {
-        const getCollect = useCollectStore();
-        getCollect.collectIds = collectStorage.get("collectStorage");
-
-        const getCompare = useCollectStore();
-        getCompare.compareIds = collectStorage.get("compareStorage");
+        const collectStore = useCollectStore();
         
+        collectStore.collectIds = collectStorage.get("collectStorage");
+        collectStore.compareIds = collectStorage.get("compareStorage");
+
         const employeeData = employeeDataStore();
         await employeeData.fetchExcelData();
       },
-
       children: [
         {
           path: "",
@@ -51,4 +49,19 @@ const router = createRouter({
   linkExactActiveClass: "nav-active",
 });
 
+// router.beforeEach(async (to, from, next) => {
+//   const loadingState = useLoadingState();
+//   loadingState.isLoading = true;
+//   // console.log("讀取中 beforeEach", to, from);
+//   await animateWithDelay(1000).then(() => {
+//     next();
+//   });
+// });
+// router.afterEach(async (to, from) => {
+//   const loadingState = useLoadingState();
+//   await animateWithDelay(2000).then(() => {
+//     loadingState.isLoading = false;
+//     // console.log("讀取完 afterEach");
+//   });
+// });
 export default router;

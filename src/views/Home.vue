@@ -223,13 +223,14 @@
 <script>
 const { VITE_API_URL } = import.meta.env;
 import tshukathon from "@/assets/images/tshukathon.jpg";
-
+import { animateWithDelay } from "@/utils/common.js";
 import useGlobalDialogStore from "@/stores/globalDialog.js";
+import { useLoadingState } from "@/stores/common.js";
 import { mapActions, mapState } from "pinia";
 import PageHeader from "@/components/PageHeader.vue";
 import LightBox from "@/components/LightBox.vue";
 import Modal from "@/components/Modal.vue";
-import { read, utils } from "xlsx";
+
 import { employeeDataStore } from "../stores/employeeDataStore";
 export default {
   components: {
@@ -252,11 +253,11 @@ export default {
     ...mapActions(useGlobalDialogStore, ["openModal"]),
     ...mapActions(employeeDataStore, ["fetchExcelData"]),
   },
-  // computed: {
-  //   ...mapState(useGlobalDialogStore, ["show"]),
-  // },
-  mounted() {
-    this.fetchExcelData();
+  async mounted() {
+    useLoadingState().isLoading = true;
+    await animateWithDelay(2800).then(() => {
+      useLoadingState().isLoading = false;
+    });
   },
 };
 </script>

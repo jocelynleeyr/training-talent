@@ -1,11 +1,5 @@
 const { VITE_API_URL } = import.meta.env;
-// import axios from "axios";
 import { defineStore } from "pinia";
-// import { useLoadingState } from "@/stores/common.js";
-import { useCollectStore } from "@/stores/collectStore.js";
-// import toast from "@/utils/toast";
-// import xlsxFile from "@/assets/Employee20230704.xlsx";
-import router from "../router";
 import { read, utils } from "xlsx";
 const xlsxFile = new URL("@/assets/Employee20230704.xlsx", import.meta.url)
   .href;
@@ -18,7 +12,6 @@ export const employeeDataStore = defineStore("employeetData", {
       excelData: [],
       selectTag: "all",
       searchKeyword: "",
-      // employeeTags: [],
       selectFilter: [],
       originData: [],
       modifyData: [],
@@ -40,10 +33,7 @@ export const employeeDataStore = defineStore("employeetData", {
     async fetchExcelData() {
       try {
         const response = await fetch(VITE_API_URL);
-        // const response = await fetch(
-        //   new URL(VITE_API_URL, import.meta.url).href
-        // );
-
+        
         const data = await response.arrayBuffer();
         const workbook = read(data);
         const sheetName = workbook.SheetNames[0];
