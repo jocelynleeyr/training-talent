@@ -27,3 +27,27 @@ export const excelDateToJSDate = (serial) => {
     seconds
   ).toLocaleDateString();
 };
+
+export const promiseFunc = (time = 500) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+
+export const animateWithDelay = (time = 500) => {
+  return new Promise((resolve) => {
+    const animationCallback = () => {
+      // 在這可以處理動畫效果
+
+      // 延遲執行時間（例如：500毫秒）
+      setTimeout(() => {
+        resolve();
+      }, time);
+    };
+
+    // 請求執行動畫幀，並傳入回調函數
+    requestAnimationFrame(animationCallback);
+  });
+};

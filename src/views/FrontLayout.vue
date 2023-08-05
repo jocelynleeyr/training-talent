@@ -4,38 +4,35 @@
     <RouterView />
   </div>
   <FooterNav />
-  
+  <LoadingOverlay v-model="isLoading" />
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
-import useGlobalDialogStore from "@/stores/globalDialog.js";
+import { mapState } from "pinia";
+import { useLoadingState } from "@/stores/common.js";
 
 import { RouterView } from "vue-router";
+import tshukathon from "@/assets/images/tshukathon.jpg";
 import HeaderNav from "@/components/HeaderNav.vue";
 import FooterNav from "@/components/FooterNav.vue";
-import tshukathon from "@/assets/images/tshukathon.jpg";
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
 export default {
   components: {
     RouterView,
     HeaderNav,
     FooterNav,
     tshukathon,
+    LoadingOverlay,
   },
   data() {
     return {
       infoData: {
         imageUrl: tshukathon,
       },
-      
     };
   },
-  methods: {
-    // ...mapActions(useGlobalDialogStore, ["closeDialog"]),
-  },
   computed: {
-    // ...mapState(useGlobalDialogStore, ["show"]),
+    ...mapState(useLoadingState, ["isLoading"]),
   },
-
 };
 </script>
