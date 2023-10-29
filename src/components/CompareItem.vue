@@ -1,7 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col w-[calc(33.333%-theme(space.6)/2)] py-6 mb-8 ml-6 [&:first-child]:ml-0 space-y-2 rounded-xl bg-white group"
-    :class="{ 'opacity-60': compareItem.isCompare }"
+    class="relative flex flex-col shrink-0 w-[calc(33.333%-theme(space.6)/2)] py-6 mb-8 ml-6 [&:first-child]:ml-0 space-y-2 rounded-xl bg-white group"
   >
     <ul class="flex flex-col divide-y">
       <template v-for="item in headers" :key="item">

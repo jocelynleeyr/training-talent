@@ -30,11 +30,11 @@ export const useCollectStore = defineStore("collectStore", {
     compareIds: [],
   }),
   actions: {
-    getCollects(id) {
+    getCollects() {
       this.collectData = [];
       // 依加入先後順序排序
       this.collectIds.forEach((id) => {
-        const findItem = employeeDataStore().modifyData.find(
+        const findItem = employeeDataStore().originData.find(
           (obj) => obj.id === id
         );
         if (findItem) {
@@ -43,7 +43,7 @@ export const useCollectStore = defineStore("collectStore", {
       });
 
       // 依原始陣列順序排序
-      // employeeDataStore().modifyData.forEach((item) => {
+      // employeeDataStore().originData.forEach((item) => {
       //   if (this.collectIds.includes(item.id)) {
 
       //     this.collectData.push(item)
@@ -72,10 +72,11 @@ export const useCollectStore = defineStore("collectStore", {
     },
 
     getCompare() {
+      
       this.compareData = [];
       // 依加入先後順序排序
       this.compareIds.forEach((id) => {
-        const findItem = employeeDataStore().modifyData.find(
+        const findItem = employeeDataStore().originData.find(
           (obj) => obj.id === id
         );
         if (findItem) {
@@ -84,14 +85,13 @@ export const useCollectStore = defineStore("collectStore", {
       });
 
       // 依原始陣列順序排序
-      // employeeDataStore().modifyData.forEach((item) => {
+      // employeeDataStore().originData.forEach((item) => {
       //   if (this.compareIds.includes(item.id)) {
       //     this.compareData.push(item);
       //   }
       // });
     },
     toggleCompare(id) {
-      console.log("toggleCompare");
       const compareId = this.compareIds.indexOf(id);
       if (compareId === -1) {
         this.compareIds.push(id);

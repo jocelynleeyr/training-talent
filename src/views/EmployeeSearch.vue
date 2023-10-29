@@ -46,7 +46,7 @@
                 v-for="(item, index) in paginationData.data"
                 :key="item.id"
                 :employee-data="item"
-                @open="openDetail(item)"
+                @open="showDetails(index, item)"
               />
             </div>
             <p
@@ -70,8 +70,10 @@
       <EmployeeDetail
         @close="employeeModal.show = false"
         :employee-data="tempDetail"
-        @prev-item="prevItem"
-        @next-item="nextItem"
+        :pages="paginationData"
+        :current-index="countIndex"
+        @prev-item="navigate(-1)"
+        @next-item="navigate(1)"
       />
     </Modal>
   </div>
@@ -103,7 +105,13 @@ export default {
         show: false,
       },
       tempDetail: {},
+      currentPageNum: 1,
       currentIndex: 0,
+      countIndex: 1,
+      currentItemIndex: 1,
+      minValue: 0,
+      maxValue: 0,
+      selectTag: "all",
     };
   },
   methods: {
@@ -115,8 +123,7 @@ export default {
         if (
           this.selectTag !== "all" &&
           (!item["標籤"] || !item["標籤"].includes(this.selectTag))
-        )
-          return false;
+        ) return false;
         if (
           searchText !== "" &&
           !(
@@ -137,40 +144,50 @@ export default {
       if (content)
         return content.toLowerCase().includes(searchTarget.toLowerCase());
     },
-    openDetail(item) {
+    showDetails(index, item) {
+      // 開啟詳細內容 取得總筆數的當下位置
+      this.countIndex = this.modifyData.indexOf(item) + 1;
+      this.currentPageNum = this.paginationData.current_page;
+
       this.employeeModal.show = true;
+
       this.tempDetail = Object.assign({}, item);
-      this.currentIndex = this.paginationData.data.findIndex(obj=> obj.id === item.id)
     },
-    nextItem() {
-      this.currentIndex += 1;
-      this.changeDetailView();
-    },
-    prevItem() {
-      this.currentIndex -= 1;
-      this.changeDetailView();
-      
-    },
-    changeDetailView() {
-      if (this.currentIndex >= this.paginationData.data.length-1) {
-        this.currentIndex = this.paginationData.data.length-1;
-        console.log('this.currentIndex',this.currentIndex);
-      }else if (this.currentIndex <= 0) {
-        this.currentIndex = 0;
+    navigate(direction) {
+      this.countIndex += direction;
+      if (this.countIndex <= 1) this.countIndex = 1;
+      if (this.countIndex >= this.paginationData.totalResult)
+        this.countIndex = this.paginationData.totalResult;
+      const minItem =
+        this.currentPageNum * this.paginationData.per_page -
+        this.paginationData.per_page +
+        1;
+      const maxItem = this.currentPageNum * this.paginationData.per_page;
+      // 根據 countIndex，判斷是否需要切換分頁
+      if (
+        this.countIndex > maxItem &&
+        this.currentPageNum < this.paginationData.total_pages
+      ) {
+        // 切換到下一頁
+        this.currentPageNum++;
+      } else if (this.countIndex < minItem && this.currentPageNum > 1) {
+        // 切換到上一頁
+        this.currentPageNum--;
       }
-      this.tempDetail = Object.assign({}, this.paginationData.data[this.currentIndex]);
-      
+
+      this.changePage(this.currentPageNum);
+      // this.tempDetail = Object.assign({}, this.modifyData[this.countIndex - 1]);
+      this.tempDetail = JSON.parse(JSON.stringify(this.modifyData[this.countIndex - 1]))
     },
   },
   computed: {
     ...mapWritableState(employeeDataStore, [
       "paginationData",
-      "selectTag",
+      // "selectTag",
       "searchKeyword",
       "modifyData",
       "selectFilter",
     ]),
-    // ...mapWritableState(useCollectStore, ["collectData"]),
     ...mapState(employeeDataStore, ["employeeTags", "originData"]),
   },
 };

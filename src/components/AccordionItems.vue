@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     toggle(content) {
-      console.log(content);
       content = !content;
     },
     startTransition(el) {

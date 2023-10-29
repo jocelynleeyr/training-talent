@@ -1,9 +1,11 @@
 <template>
   <div
-    class="relative flex flex-col items-center w-full max-w-[1200px] max-h-[80%] m-auto"
+    class="relative flex flex-col items-center w-[calc(100%-theme(space.12)*2-theme(space.10))] max-w-[calc(1200px+(theme(space.12)*2)+theme(space.10))] max-h-[80%] m-auto"
   >
-    <div @click="$emit('prevItem')"
-      class="absolute -left-20 inset-y-0 my-auto flex items-center justify-center w-12 h-12 rounded-xl bg-netural-netural-100 text-primary-primary-100 cursor-pointer select-none group-[.disabled]:opacity-30 group-[.disabled]:text-neutral-300 group-[.disabled]:cursor-not-allowed font-semibold"
+    <div
+      @click="$emit('prevItem')"
+      class="absolute -left-16 inset-y-0 z-10 my-auto flex items-center justify-center w-12 h-12 rounded-xl bg-netural-netural-100 text-primary-primary-100 cursor-pointer select-none group-[.disabled]:opacity-30 group-[.disabled]:text-neutral-300 group-[.disabled]:cursor-not-allowed font-semibold group"
+      :class="{ disabled: currentIndex <= 1 }"
     >
       <span class="material-icons-round text-4xl"> chevron_left </span>
     </div>
@@ -63,7 +65,6 @@
                       </p>
                     </li>
                   </ul> -->
-                  <!-- {{ employeeData[item] }} -->
                   <Tags :tags="checkContentEmpty(employeeData[item])" />
                 </li>
                 <li
@@ -87,14 +88,15 @@
     </div>
     <div
       @click="$emit('nextItem')"
-      class="absolute -right-20 inset-y-0 my-auto flex items-center justify-center w-12 h-12 rounded-xl bg-netural-netural-100 text-primary-primary-100 cursor-pointer select-none group-[.disabled]:opacity-30 group-[.disabled]:text-neutral-300 group-[.disabled]:cursor-not-allowed font-semibold"
+      class="absolute -right-16 inset-y-0 my-auto flex items-center justify-center w-12 h-12 rounded-xl bg-netural-netural-100 text-primary-primary-100 cursor-pointer select-none :hidden font-semibold "
+      :class="{ 'disabled': currentIndex >= pages.totalResult }"
     >
       <span class="material-icons-round text-4xl"> navigate_next </span>
     </div>
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapWritableState } from "pinia";
+import { mapState, mapWritableState } from "pinia";
 import { employeeDataStore } from "@/stores/employeeDataStore.js";
 import { useCollectStore } from "@/stores/collectStore.js";
 import { checkContentEmpty } from "@/utils/common.js";
@@ -107,11 +109,17 @@ export default {
       type: Object,
       default: () => {},
     },
+    pages: {
+      type: Object,
+      default: () => {},
+    },
+    currentIndex: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
-    return {
-      currentIndex: 0,
-    };
+    return {};
   },
   components: {
     ToggleCollectIcon,
@@ -124,6 +132,12 @@ export default {
   computed: {
     ...mapState(employeeDataStore, ["headers"]),
     ...mapState(useCollectStore, ["collectIds"]),
+    ...mapWritableState(employeeDataStore, ["pagination"]),
   },
 };
 </script>
+<style lang="scss">
+  .disabled {
+    @apply opacity-0 pointer-events-none;
+  }
+</style>
