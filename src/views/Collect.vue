@@ -160,7 +160,6 @@ export default {
     //   if (this.countCompareIndex >= this.compareList.length) {
     //     this.countCompareIndex = this.compareList.length;
     //   }
-    //   console.log("content", content);
     //   this.compareList[this.countCompareIndex - 1] = {
     //     ...content,
     //     id: this.countCompareIndex,
@@ -182,9 +181,7 @@ export default {
         };
       });
     },
-    // checkCompareData() {
-    //   return this.compareData.length ? this.compareData : this.compareList;
-    // },
+    
   },
   updated() {
     
@@ -204,7 +201,6 @@ export default {
     // 取得 收藏 與 比較 完整資料內容
     this.getCollects();
     this.getCompare();
-    
     // console.log(this.$refs);
     // this.compareWrap = this.$refs.compareWrap;
     

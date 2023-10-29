@@ -8,12 +8,9 @@ export default defineStore("globalDialog", {
   getters: {},
   actions: {
     closeDialog() {
-      console.log("close");
-      // this.config = {};
       this.show = false;
     },
     openModal() {
-      console.log("open");
       this.show = true;
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative flex flex-col w-[220px] p-6 mb-8 space-y-2 rounded-xl bg-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] cursor-pointer group"
-    :class="{ '-active': employeeData.collected }" @click="$emit('open')"
+    :class="[{ '-active': differenceCompare(employeeData.id) }, { 'opacity-30': this.$route.path === '/collect' && this.compareIds.length >= this.limit && !this.compareIds.includes(employeeData.id)}]" @click="$emit('open')"
   >
     <EmployeeFaceIcon  class="mx-auto mt-[calc(-112px/2)]" />
     <ToggleCollectIcon v-if="this.$route.path === '/employeesearch'" :employee-data="employeeData" class="absolute right-0 top-0"/>
@@ -94,17 +94,15 @@ export default {
       type: Object,
       default: {},
     },
-    // openModal: {
-    //   type: Function,
-    //   default: () => {},
-    // }
   },
   components: {
     ToggleCollectIcon,
     EmployeeFaceIcon
   },
   data() {
-    return {};
+    return {
+      limit: 3
+    };
   },
   methods: {
     ...mapActions(useCollectStore, [
@@ -112,17 +110,17 @@ export default {
       "toggleCompare",
       "getCompare",
     ]),
-    insertItem(item) {
-      this.$emit("insert", item);
-    },
     isCheckboxDisabled(item) {
-      return this.compareIds.length >= 3 && !this.compareIds.includes(item);
+      return this.compareIds.length >= this.limit && !this.compareIds.includes(item);
     },
+    // 沒有被選取比較的資料
+    differenceCompare(item) {
+      return this.compareIds.includes(item)
+    }
   },
   computed: {
-    ...mapState(useCollectStore, ["collectIds", "compareIds", "compareData"]),
+    ...mapState(useCollectStore, ["collectData","collectIds", "compareIds", "compareData"]),
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
